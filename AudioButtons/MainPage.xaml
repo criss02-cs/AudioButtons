@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewModels="clr-namespace:AudioButtons.ViewModels"
+             xmlns:models="clr-namespace:AudioButtons.Models"
+             x:Class="AudioButtons.MainPage"
+             x:DataType="viewModels:ButtonsViewModel"
+             Title="{Binding Title}"
+             NavigatedTo="MainPage_OnNavigatedTo">
+
+    <Grid RowDefinitions="*,50,0">
+        <CollectionView x:Name="buttonsCollection" Grid.Row="0"
+                        ItemsSource="{Binding Buttons}"
+                        Margin="20" SelectionMode="Single"
+                        SelectionChangedCommand="{Binding ModifyButton}"
+                        SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
+        >
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:ButtonAudio">
+                    <StackLayout>
+                        <Button HorizontalOptions="Start" Text="{Binding Name}"
+                                WidthRequest="{Binding Width,Source={RelativeSource AncestorType={x:Type CollectionView}}}"
+                                BackgroundColor="Green" Pressed="Button_OnPressed">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding .}"
+                                             Value="{x:Type models:ButtonAudio}">
+                                    <Setter Property="Command" Value="{Binding PlayButton, Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}" />
+                                    <Setter Property="CommandParameter" Value="{Binding .}" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Text="Aggiungi" Grid.Row="1"
+                BackgroundColor="Red"
+                Command="{Binding NewButton}"/>
+        <toolkit:MediaElement Source="{Binding MediaSource}"
+                              Grid.Row="2" ShouldAutoPlay="True" MediaEnded="MediaElement_OnMediaEnded" />
+    </Grid>
+
+</ContentPage>
