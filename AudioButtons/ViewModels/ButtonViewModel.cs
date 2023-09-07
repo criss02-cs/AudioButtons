@@ -51,6 +51,17 @@ namespace AudioButtons.ViewModels
             }
         }
 
+        public string Color
+        {
+            get => _button.Color;
+            set
+            {
+                if(_button.Color == value) return;
+                _button.Color = value;
+                OnPropertyChanged();
+            }
+        }
+
         public event EventHandlerAsync EndLoadEvent;
 
         public ICommand PlayAudio { get; private set; }

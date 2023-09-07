@@ -15,6 +15,7 @@ namespace AudioButtons.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string SerializedAudio { get; set; } = string.Empty;
+        public string Color { get; set; } = "(0,0,0)";
 
         public ButtonAudio()
         {

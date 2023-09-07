@@ -3,15 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AudioButtons.Views.ButtonPage"
              xmlns:viewModels="clr-namespace:AudioButtons.ViewModels"
+             xmlns:components="clr-namespace:AudioButtons.Components"
+             xmlns:views="clr-namespace:AudioButtons.Views"
              x:DataType="viewModels:ButtonViewModel"
              Title="Nuovo bottone">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="LightBackground">#FAF9F8</Color>
+            <Color x:Key="DarkBackground">Black</Color>
+
+            <Style ApplyToDerivedTypes="True" TargetType="views:ButtonPage">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource
+                    LightBackground}, Dark={StaticResource DarkBackground}}" />
+            </Style>
+            <Style ApplyToDerivedTypes="True" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black},
+                    Dark={StaticResource White}}"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <VerticalStackLayout
         Margin="10">
-        <Label Text="Nome" TextColor="Black"/>
+        <Label Text="Nome"/>
         <Entry Text="{Binding Name}"
                Placeholder="Inserisci il nome"/>
-        <Label Text="Percorso" TextColor="Black"/>
+        <Label Text="Percorso" />
         <Entry Text="{Binding AudioPath}" IsEnabled="False"/>
         <Button Text="Seleziona il file audio" Command="{Binding LoadAudio}"/>
+        <Label Text="Seleziona il colore del bottone"/>
+        <components:RgbColorPicker Rgb="{Binding Color}" />
     </VerticalStackLayout>
 </ContentPage>
