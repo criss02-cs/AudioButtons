@@ -22,6 +22,10 @@ namespace AudioButtons.ViewModels
 
         private MediaSource _mediaSource;
 
+        private bool _isPlayButtonVisible = false;
+        private bool _isPauseButtonVisible = false;
+        private bool _isStopButtonVisible = false;
+
         public MediaSource MediaSource
         {
             get => _mediaSource;
@@ -33,12 +37,37 @@ namespace AudioButtons.ViewModels
             }
         }
 
-        public bool IsPlaying { get; set; } = false;
-        public bool IsPaused { get; set; } = false;
+        public bool IsPlayButtonVisible
+        {
+            get => _isPlayButtonVisible;
+            set
+            {
+                if(value == _isPlayButtonVisible) return;
+                _isPlayButtonVisible = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public bool IsPlayButtonVisible { get; set; } = false;
-        public bool IsPauseButtonVisible { get; set; } = false;
-        public bool IsStopButtonVisible { get; set; } = false;
+        public bool IsPauseButtonVisible
+        {
+            get => _isPauseButtonVisible;
+            set
+            {
+                if (value == _isPauseButtonVisible) return;
+                _isPauseButtonVisible = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsStopButtonVisible
+        {
+            get => _isStopButtonVisible;
+            set
+            {
+                if (value == _isStopButtonVisible) return;
+                _isStopButtonVisible = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ButtonsViewModel(Database db)
         {

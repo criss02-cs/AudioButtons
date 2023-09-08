@@ -55,7 +55,8 @@ namespace AudioButtons
 
         private void MediaElement_OnMediaEnded(object sender, EventArgs e)
         {
-            _buttonWidthAnimation.Reset(this, "WidthAnimation", 16U, 250U, Easing.Linear);
+            _buttonWidthAnimation.Reset(this, "WidthAnimation", 16U, 250U, Easing.Linear,
+                (d, b) => _buttonWidthAnimation = null);
             ViewModel.IsPauseButtonVisible = false;
             ViewModel.IsStopButtonVisible = false;
             ViewModel.IsPlayButtonVisible = false;
