@@ -33,6 +33,13 @@ namespace AudioButtons.ViewModels
             }
         }
 
+        public bool IsPlaying { get; set; } = false;
+        public bool IsPaused { get; set; } = false;
+
+        public bool IsPlayButtonVisible { get; set; } = false;
+        public bool IsPauseButtonVisible { get; set; } = false;
+        public bool IsStopButtonVisible { get; set; } = false;
+
         public ButtonsViewModel(Database db)
         {
             _db = db;

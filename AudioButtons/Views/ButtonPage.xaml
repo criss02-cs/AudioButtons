@@ -5,6 +5,7 @@
              xmlns:viewModels="clr-namespace:AudioButtons.ViewModels"
              xmlns:components="clr-namespace:AudioButtons.Components"
              xmlns:views="clr-namespace:AudioButtons.Views"
+             xmlns:converters="clr-namespace:AudioButtons.Converters"
              x:DataType="viewModels:ButtonViewModel"
              Title="Nuovo bottone">
     <ContentPage.Resources>
@@ -31,6 +32,6 @@
         <Entry Text="{Binding AudioPath}" IsEnabled="False"/>
         <Button Text="Seleziona il file audio" Command="{Binding LoadAudio}"/>
         <Label Text="Seleziona il colore del bottone"/>
-        <components:RgbColorPicker Rgb="{Binding Color}" />
+        <components:RgbColorPicker Rgb="{Binding Color, Mode=TwoWay}" />
     </VerticalStackLayout>
 </ContentPage>

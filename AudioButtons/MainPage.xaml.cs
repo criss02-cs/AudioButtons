@@ -3,6 +3,7 @@ using AudioButtons.Components;
 using AudioButtons.Models;
 using AudioButtons.ViewModels;
 using System.Reflection;
+using CommunityToolkit.Mvvm.Input;
 
 namespace AudioButtons
 {
@@ -19,13 +20,34 @@ namespace AudioButtons
         private void Button_OnPressed(object sender, EventArgs e)
         {
             var button = (Button)sender;
-            var viewModel = BindingContext as ButtonsViewModel;
-            viewModel.PlayButton.Execute(button.BindingContext as ButtonAudio);
+            ViewModel.PlayButton.Execute(button.BindingContext as ButtonAudio);
+            if (_buttonWidthAnimation is not null && !_buttonWidthAnimation.IsAnimationReset)
+            {
+                MediaElement.Stop();
+                _buttonWidthAnimation.Reset(this, "WidthAnimation", 16U, 250U, Easing.Linear, (d, b) =>
+                {
+                    PlayButton(button);
+                });
+            }
+
+            if (_buttonWidthAnimation is null)
+            {
+                PlayButton(button);
+            }
+            
+        }
+
+        private void PlayButton(Button button)
+        {
             _buttonWidthAnimation =
                 new ButtonWidthAnimation(v => button.WidthRequest = v, button.Width, CalculatePercentage(90));
             _buttonWidthAnimation.Start(this, "WidthAnimation", 16U, 250U, Easing.Linear);
+            MediaElement.Play();
+            ViewModel.IsPauseButtonVisible = true;
+            ViewModel.IsStopButtonVisible = true;
+            ViewModel.IsPlayButtonVisible = false;
         }
-
+        
         private double CalculatePercentage(double percentage)
         {
             return percentage / 100 * buttonsCollection.Width;
@@ -34,6 +56,9 @@ namespace AudioButtons
         private void MediaElement_OnMediaEnded(object sender, EventArgs e)
         {
             _buttonWidthAnimation.Reset(this, "WidthAnimation", 16U, 250U, Easing.Linear);
+            ViewModel.IsPauseButtonVisible = false;
+            ViewModel.IsStopButtonVisible = false;
+            ViewModel.IsPlayButtonVisible = false;
         }
 
         private ButtonsViewModel ViewModel => BindingContext as ButtonsViewModel;
@@ -59,6 +84,29 @@ namespace AudioButtons
             }
 
             return null;
+        }
+
+
+        private void StopButton(object sender, TappedEventArgs e)
+        {
+            MediaElement.Stop();
+            MediaElement_OnMediaEnded(null, null);
+        }
+
+        private void PauseButton(object sender, TappedEventArgs e)
+        {
+            MediaElement.Pause();
+            ViewModel.IsPauseButtonVisible = false;
+            ViewModel.IsStopButtonVisible = true;
+            ViewModel.IsPlayButtonVisible = true;
+        }
+
+        private void PlayButton(object sender, TappedEventArgs tappedEventArgs)
+        {
+            MediaElement.Play();
+            ViewModel.IsPauseButtonVisible = true;
+            ViewModel.IsStopButtonVisible = true;
+            ViewModel.IsPlayButtonVisible = false;
         }
     }
 }

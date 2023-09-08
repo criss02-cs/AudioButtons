@@ -4,10 +4,19 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewModels="clr-namespace:AudioButtons.ViewModels"
              xmlns:models="clr-namespace:AudioButtons.Models"
+             xmlns:converters="clr-namespace:AudioButtons.Converters"
+             xmlns:font="clr-namespace:AudioButtons.FontModels"
+             xmlns:audioButtons="clr-namespace:AudioButtons"
              x:Class="AudioButtons.MainPage"
              x:DataType="viewModels:ButtonsViewModel"
              Title="{Binding Title}"
              NavigatedTo="MainPage_OnNavigatedTo">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:RgbToStringConverter x:Key="RGBStringToColorConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <Grid RowDefinitions="*,50,0">
         <CollectionView x:Name="buttonsCollection" Grid.Row="0"
@@ -21,20 +30,59 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:ButtonAudio">
-                    <StackLayout>
+                    <HorizontalStackLayout>
                         <Button HorizontalOptions="Start" Text="{Binding Name}"
                                 WidthRequest="{Binding Width,Source={RelativeSource AncestorType={x:Type CollectionView}}}"
-                                BackgroundColor="Green" Pressed="Button_OnPressed">
+                                BackgroundColor="{Binding Color, Converter={StaticResource RGBStringToColorConverter}}" 
+                                Pressed="Button_OnPressed">
                             <Button.Triggers>
                                 <DataTrigger TargetType="Button" Binding="{Binding .}"
                                              Value="{x:Type models:ButtonAudio}">
-                                    <Setter Property="Command" Value="{Binding PlayButton, Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}" />
+                                    <Setter Property="Command" Value="{Binding PlayButton, 
+                                        Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}" />
                                     <Setter Property="CommandParameter" Value="{Binding .}" />
                                 </DataTrigger>
                             </Button.Triggers>
                         </Button>
-
-                    </StackLayout>
+                        <Label
+                            FontFamily="FaSolid"
+                            Text="{x:Static font:FaSolidIcons.Pause}"
+                            IsVisible="True"
+                            TextColor="Black"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
+                            FontSize="18"
+                            >
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PauseButton"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label
+                            FontFamily="FaSolid"
+                            Text="{x:Static font:FaSolidIcons.Stop}"
+                            IsVisible="{Binding IsPlaying,
+                                Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}"
+                        >
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="StopButton"/>
+                            </Label.GestureRecognizers>
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsPlaying,
+                                Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}" Value="True">
+                                    <Setter Property="IsVisible" Value="False"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Label
+                            FontFamily="FaSolid"
+                            Text="{x:Static font:FaSolidIcons.Play}"
+                            IsVisible="False"
+                        >
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PlayButton"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </HorizontalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
@@ -42,8 +90,8 @@
         <Button Text="Aggiungi" Grid.Row="1"
                 BackgroundColor="Red"
                 Command="{Binding NewButton}"/>
-        <toolkit:MediaElement Source="{Binding MediaSource}"
-                              Grid.Row="2" ShouldAutoPlay="True" MediaEnded="MediaElement_OnMediaEnded" />
+        <toolkit:MediaElement Source="{Binding MediaSource}" x:Name="MediaElement"
+                              Grid.Row="2" ShouldAutoPlay="False" MediaEnded="MediaElement_OnMediaEnded" />
     </Grid>
 
 </ContentPage>

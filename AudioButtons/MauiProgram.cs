@@ -19,6 +19,9 @@ namespace AudioButtons
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("fa-brands-400.ttf", "FaBrands");
+                    fonts.AddFont("fa-solid-900.ttf", "FaSolid");
+                    fonts.AddFont("TT-Commons-Bold.otf", "TTCommonsBold");
                 });
             builder.Services.AddSingleton<Database>();
             builder.Services.AddSingleton<ButtonsViewModel>();
