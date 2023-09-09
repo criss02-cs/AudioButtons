@@ -14,7 +14,16 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <converters:RgbToStringConverter x:Key="RGBStringToColorConverter"/>
+            <converters:RgbToStringConverter x:Key="RgbStringToColorConverter"/>
+
+            <Style ApplyToDerivedTypes="True" TargetType="Label" x:Key="FontAwesomeIcon">
+                <Setter Property="FontFamily" Value="FaSolid"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="Margin" Value="5"/>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -33,7 +42,7 @@
                     <HorizontalStackLayout>
                         <Button HorizontalOptions="Start" Text="{Binding Name}"
                                 WidthRequest="{Binding Width,Source={RelativeSource AncestorType={x:Type CollectionView}}}"
-                                BackgroundColor="{Binding Color, Converter={StaticResource RGBStringToColorConverter}}" 
+                                BackgroundColor="{Binding Color, Converter={StaticResource RgbStringToColorConverter}}" 
                                 Pressed="Button_OnPressed">
                             <Button.Triggers>
                                 <DataTrigger TargetType="Button" Binding="{Binding .}"
@@ -45,12 +54,8 @@
                             </Button.Triggers>
                         </Button>
                         <Label
-                            FontFamily="FaSolid"
+                            Style="{StaticResource FontAwesomeIcon}"
                             Text="{x:Static font:FaSolidIcons.Pause}"
-                            TextColor="Black"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            FontSize="18"
                             IsVisible="{Binding IsPauseButtonVisible, Mode=TwoWay ,
                                 Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}"
                             >
@@ -59,12 +64,8 @@
                             </Label.GestureRecognizers>
                         </Label>
                         <Label
-                            FontFamily="FaSolid"
+                            Style="{StaticResource FontAwesomeIcon}"
                             Text="{x:Static font:FaSolidIcons.Play}"
-                            TextColor="Black"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            FontSize="18"
                             IsVisible="{Binding IsPlayButtonVisible,Mode=TwoWay ,
                             Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}"
                             >
@@ -73,11 +74,7 @@
                             </Label.GestureRecognizers>
                         </Label>
                         <Label
-                            FontFamily="FaSolid"
-                            TextColor="Black"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            FontSize="18"
+                            Style="{StaticResource FontAwesomeIcon}"
                             Text="{x:Static font:FaSolidIcons.Stop}"
                             IsVisible="{Binding IsStopButtonVisible,Mode=TwoWay ,
                                 Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}"

@@ -40,7 +40,7 @@ namespace AudioButtons
         private void PlayButton(Button button)
         {
             _buttonWidthAnimation =
-                new ButtonWidthAnimation(v => button.WidthRequest = v, button.Width, CalculatePercentage(90));
+                new ButtonWidthAnimation(v => button.WidthRequest = v, button.Width, CalculatePercentage(85));
             _buttonWidthAnimation.Start(this, "WidthAnimation", 16U, 250U, Easing.Linear);
             MediaElement.Play();
             ViewModel.IsPauseButtonVisible = true;
