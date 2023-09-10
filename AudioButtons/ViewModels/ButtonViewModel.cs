@@ -26,9 +26,9 @@ namespace AudioButtons.ViewModels
                 if (_button.Name == value) return;
                 _button.Name = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(IsSaveButtonEnabled));
             }
         }
-
         public string AudioPath
         {
             get => _button.Audio.FilePath;
@@ -37,6 +37,7 @@ namespace AudioButtons.ViewModels
                 if (_button.Audio.FilePath == value) return;
                 _button.Audio.FilePath = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(IsSaveButtonEnabled));
             }
         }
 
@@ -56,7 +57,7 @@ namespace AudioButtons.ViewModels
             get => _button.Color;
             set
             {
-                if(_button.Color == value) return;
+                if (_button.Color == value) return;
                 _button.Color = value;
                 OnPropertyChanged();
             }
@@ -64,17 +65,36 @@ namespace AudioButtons.ViewModels
 
         public event EventHandlerAsync EndLoadEvent;
 
+        public bool IsSaveButtonEnabled => !string.IsNullOrEmpty(_button.Name) && !string.IsNullOrEmpty(_button.Audio.FilePath);
+
         public ICommand PlayAudio { get; private set; }
         public ICommand LoadAudio { get; private set; }
-        
+        public ICommand SaveCommand { get; private set; }
+
         public ButtonViewModel(Database db)
         {
             _db = db;
             _button = new ButtonAudio();
             LoadAudio = new AsyncRelayCommand(OpenAudioFromFile);
+            SaveCommand = new AsyncRelayCommand(SaveFile);
         }
-        
+
         public ButtonViewModel(ButtonAudio button) => _button = button;
+
+        private async Task SaveFile()
+        {
+            await _db.Init();
+            _button.Id = Guid.NewGuid();
+            var rows = await _db.SaveItemAsync(_button);
+            if (rows == 0)
+            {
+                await Application.Current.MainPage.DisplayAlert("Errore", "C'è stato un problema nel salvataggio del bottone", "Ok");
+            }
+            else
+            {
+                await Back();
+            }
+        }
 
         private async Task OpenAudioFromFile()
         {
@@ -96,12 +116,8 @@ namespace AudioButtons.ViewModels
                 if (result is not null)
                 {
                     await _db.Init();
-                    _button.Audio.FilePath = result.FullPath;
+                    AudioPath = result.FullPath;
                     _button.SerializedAudio = JsonConvert.SerializeObject(_button.Audio);
-                    _button.Id = Guid.NewGuid();
-                    var rows = await _db.SaveItemAsync(_button);
-                    //EndLoadEvent?.Invoke(this, new CustomEventArgs<bool> { Value = rows > 0 });
-                    await Back();
                 }
             }
             catch (Exception e)

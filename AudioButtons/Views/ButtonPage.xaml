@@ -24,10 +24,18 @@
         <Label Text="Nome"/>
         <Entry Text="{Binding Name}"
                Placeholder="Inserisci il nome"/>
-        <Label Text="Percorso" />
-        <Entry Text="{Binding AudioPath}" IsEnabled="False"/>
-        <Button Text="Seleziona il file audio" Command="{Binding LoadAudio}"/>
+        <Label Text="Percorso"  />
+        <HorizontalStackLayout>
+            
+        </HorizontalStackLayout>
+        <Grid ColumnDefinitions="7.5*, *">
+            <Entry Grid.Column="0" Text="{Binding AudioPath, Mode=TwoWay}" 
+                   IsEnabled="False"/>
+            <Button Grid.Column="1" Text="..." Command="{Binding LoadAudio}"/>
+        </Grid>
         <Label Text="Seleziona il colore del bottone"/>
         <components:RgbColorPicker Rgb="{Binding Color, Mode=TwoWay}" />
+        <Button Text="Salva" Command="{Binding SaveCommand}"
+                IsEnabled="{Binding IsSaveButtonEnabled, Mode=TwoWay}"/>
     </VerticalStackLayout>
 </ContentPage>
