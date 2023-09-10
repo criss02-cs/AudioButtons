@@ -14,11 +14,11 @@
 		<ApplicationTitle>AudioButtons</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.audiobuttons</ApplicationId>
+		<ApplicationId>it.cristianocs.crisscode.audiobuttons</ApplicationId>
 		<ApplicationIdGuid>a9340b3c-4e6d-488c-9a6c-03fa215a6d80</ApplicationIdGuid>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>1.0.1</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
@@ -47,9 +47,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Fonts\fa-brands-400.ttf" />
-	  <None Remove="Resources\Fonts\fa-solid-900.ttf" />
-	  <None Remove="Resources\Fonts\TT-Commons-Bold.otf" />
+		<None Remove="Resources\Fonts\fa-brands-400.ttf" />
+		<None Remove="Resources\Fonts\fa-solid-900.ttf" />
+		<None Remove="Resources\Fonts\TT-Commons-Bold.otf" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -64,18 +64,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Components\ButtonAudioBottomSheet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Components\ButtonAudioComponent.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Components\RgbColorPicker.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\ButtonPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<MauiXaml Update="Components\ButtonAudioBottomSheet.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Components\ButtonAudioComponent.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Components\RgbColorPicker.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Resources\Styles\Palette.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\ButtonPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 
 </Project>

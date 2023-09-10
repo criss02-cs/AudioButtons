@@ -10,16 +10,12 @@
              Title="Nuovo bottone">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Color x:Key="LightBackground">#FAF9F8</Color>
-            <Color x:Key="DarkBackground">Black</Color>
-
-            <Style ApplyToDerivedTypes="True" TargetType="views:ButtonPage">
-                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource
-                    LightBackground}, Dark={StaticResource DarkBackground}}" />
-            </Style>
             <Style ApplyToDerivedTypes="True" TargetType="Label">
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black},
-                    Dark={StaticResource White}}"/>
+                <Setter Property="TextColor" Value="{StaticResource Text}" />
+            </Style>
+
+            <Style ApplyToDerivedTypes="True" TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="{StaticResource Background}"/>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>

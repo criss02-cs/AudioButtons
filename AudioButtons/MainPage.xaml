@@ -6,7 +6,6 @@
              xmlns:models="clr-namespace:AudioButtons.Models"
              xmlns:converters="clr-namespace:AudioButtons.Converters"
              xmlns:font="clr-namespace:AudioButtons.FontModels"
-             xmlns:audioButtons="clr-namespace:AudioButtons"
              x:Class="AudioButtons.MainPage"
              x:DataType="viewModels:ButtonsViewModel"
              Title="{Binding Title}"
@@ -21,13 +20,17 @@
                 <Setter Property="HorizontalTextAlignment" Value="Center"/>
                 <Setter Property="VerticalTextAlignment" Value="Center"/>
                 <Setter Property="FontSize" Value="20" />
-                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="TextColor" Value="{StaticResource Text}" />
                 <Setter Property="Margin" Value="5"/>
+            </Style>
+
+            <Style ApplyToDerivedTypes="True" TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="{StaticResource Background}"/>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="*,50,0">
+    <Grid RowDefinitions="*,70,0">
         <CollectionView x:Name="buttonsCollection" Grid.Row="0"
                         ItemsSource="{Binding Buttons}"
                         Margin="20" SelectionMode="Single"
@@ -90,7 +93,7 @@
         </CollectionView>
 
         <Button Text="Aggiungi" Grid.Row="1"
-                BackgroundColor="Red"
+                Margin="10" BackgroundColor="{StaticResource Primary}"
                 Command="{Binding NewButton}"/>
         <toolkit:MediaElement Source="{Binding MediaSource}" x:Name="MediaElement"
                               Grid.Row="2" ShouldAutoPlay="False" MediaEnded="MediaElement_OnMediaEnded" />

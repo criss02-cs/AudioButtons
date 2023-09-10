@@ -5,7 +5,7 @@
              x:Class="AudioButtons.Components.RgbColorPicker">
     <VerticalStackLayout>
         <Border>
-            <Grid>
+            <Grid BackgroundColor="{StaticResource Background}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="25"/>
                     <ColumnDefinition Width="*"/>
