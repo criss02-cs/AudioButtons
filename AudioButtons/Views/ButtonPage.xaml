@@ -25,9 +25,6 @@
         <Entry Text="{Binding Name}"
                Placeholder="Inserisci il nome"/>
         <Label Text="Percorso"  />
-        <HorizontalStackLayout>
-            
-        </HorizontalStackLayout>
         <Grid ColumnDefinitions="7.5*, *">
             <Entry Grid.Column="0" Text="{Binding AudioPath, Mode=TwoWay}" 
                    IsEnabled="False"/>

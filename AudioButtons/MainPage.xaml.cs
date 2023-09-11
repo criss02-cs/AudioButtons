@@ -109,5 +109,14 @@ namespace AudioButtons
             ViewModel.IsStopButtonVisible = true;
             ViewModel.IsPlayButtonVisible = false;
         }
+
+        private void CaButton_OnLongPressed(object sender, EventArgs e)
+        {
+            if (sender is CaButton button)
+            {
+                Application.Current.MainPage.DisplayAlert("Errore!", "CAButton", "Ok");
+            }
+            
+        }
     }
 }

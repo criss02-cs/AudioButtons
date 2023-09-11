@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
+using AudioButtons.Components.Commands;
 using AudioButtons.Models;
 using AudioButtons.Views;
 using CommunityToolkit.Maui.Views;
@@ -14,11 +15,11 @@ namespace AudioButtons.ViewModels
         private Database _db;
         public ObservableCollection<ButtonAudio> Buttons { get; private set; } = new();
         
-        public ICommand NewButton { get; }
-        public ICommand DeleteButton { get; }
-        public ICommand ModifyButton { get; }
-        public ICommand PlayButton { get; }
-        public ICommand LoadButtonsCommand { get; }
+        public ICACommand NewButton { get; }
+        public ICACommand DeleteButton { get; }
+        public ICACommand ModifyButton { get; }
+        public ICACommand PlayButton { get; }
+        public ICACommand LoadButtonsCommand { get; }
 
         private MediaSource _mediaSource;
 
@@ -74,14 +75,14 @@ namespace AudioButtons.ViewModels
             _db = db;
             Title = "Bottoni sonori";
             Task.Run(LoadButtons);
-            DeleteButton = new AsyncRelayCommand<ButtonAudio>(DeleteButtonAsync);
-            NewButton = new AsyncRelayCommand(AddNewButtonAsync);
-            PlayButton = new AsyncRelayCommand<ButtonAudio>(PlayButtonAsync);
-            LoadButtonsCommand = new AsyncRelayCommand(LoadButtons);
+            DeleteButton = new CACommand<ButtonAudio>(DeleteButtonAsync);
+            NewButton = new CACommand(o => AddNewButtonAsync());
+            PlayButton = new CACommand<ButtonAudio>(PlayButtonAsync);
+            LoadButtonsCommand = new CACommand(o => LoadButtons());
         }
 
 
-        private async Task DeleteButtonAsync(ButtonAudio button)
+        private void DeleteButtonAsync(ButtonAudio button)
         {
             if(!Buttons.Contains(button)) { return; }
             Buttons.Remove(button);
@@ -90,7 +91,7 @@ namespace AudioButtons.ViewModels
 
         private Task AddNewButtonAsync() => Shell.Current.GoToAsync(nameof(ButtonPage));
 
-        private async Task PlayButtonAsync(ButtonAudio button)
+        private void PlayButtonAsync(ButtonAudio button)
         {
             if (button.Audio.FilePath.Length == 0)
             {

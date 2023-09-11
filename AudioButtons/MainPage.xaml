@@ -6,6 +6,7 @@
              xmlns:models="clr-namespace:AudioButtons.Models"
              xmlns:converters="clr-namespace:AudioButtons.Converters"
              xmlns:font="clr-namespace:AudioButtons.FontModels"
+             xmlns:components="clr-namespace:AudioButtons.Components"
              x:Class="AudioButtons.MainPage"
              x:DataType="viewModels:ButtonsViewModel"
              Title="{Binding Title}"
@@ -33,61 +34,71 @@
     <Grid RowDefinitions="*,70,0">
         <CollectionView x:Name="buttonsCollection" Grid.Row="0"
                         ItemsSource="{Binding Buttons}"
-                        Margin="20" SelectionMode="Single"
-                        SelectionChangedCommand="{Binding ModifyButton}"
-                        SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
-        >
+                        Margin="20" 
+                        SelectionMode="None">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:ButtonAudio">
-                    <HorizontalStackLayout>
-                        <Button HorizontalOptions="Start" Text="{Binding Name}"
+                    <SwipeView>
+                        <SwipeView.LeftItems>
+                            <SwipeItems>
+                                <SwipeItemView>
+                                    <Label 
+                                        Style="{StaticResource FontAwesomeIcon}"
+                                        Text="{x:Static font:FaSolidIcons.Pencil}"/>
+                                </SwipeItemView>
+                                <SwipeItemView>
+                                    <Label 
+                                        Style="{StaticResource FontAwesomeIcon}"
+                                        Text="{x:Static font:FaSolidIcons.Trash}"/>
+                                </SwipeItemView>
+                            </SwipeItems>
+                        </SwipeView.LeftItems>
+                        <HorizontalStackLayout>
+                            <components:CaButton HorizontalOptions="Start" Text="{Binding Name}"
                                 WidthRequest="{Binding Width,Source={RelativeSource AncestorType={x:Type CollectionView}}}"
                                 BackgroundColor="{Binding Color, Converter={StaticResource RgbStringToColorConverter}}" 
-                                Pressed="Button_OnPressed">
-                            <Button.Triggers>
-                                <DataTrigger TargetType="Button" Binding="{Binding .}"
+                                ShortPressed="Button_OnPressed" LongPressed="CaButton_OnLongPressed">
+                                <components:CaButton.Triggers>
+                                    <DataTrigger TargetType="Button" Binding="{Binding .}"
                                              Value="{x:Type models:ButtonAudio}">
-                                    <Setter Property="Command" Value="{Binding PlayButton, 
-                                        Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}" />
-                                    <Setter Property="CommandParameter" Value="{Binding .}" />
-                                </DataTrigger>
-                            </Button.Triggers>
-                        </Button>
-                        <Label
-                            Style="{StaticResource FontAwesomeIcon}"
-                            Text="{x:Static font:FaSolidIcons.Pause}"
-                            IsVisible="{Binding IsPauseButtonVisible, Mode=TwoWay ,
-                                Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}"
-                            >
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="PauseButton"/>
-                            </Label.GestureRecognizers>
-                        </Label>
-                        <Label
-                            Style="{StaticResource FontAwesomeIcon}"
-                            Text="{x:Static font:FaSolidIcons.Play}"
-                            IsVisible="{Binding IsPlayButtonVisible,Mode=TwoWay ,
-                            Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}"
-                            >
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="PlayButton"/>
-                            </Label.GestureRecognizers>
-                        </Label>
-                        <Label
-                            Style="{StaticResource FontAwesomeIcon}"
-                            Text="{x:Static font:FaSolidIcons.Stop}"
-                            IsVisible="{Binding IsStopButtonVisible,Mode=TwoWay ,
-                                Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}"
-                        >
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="StopButton"/>
-                            </Label.GestureRecognizers>
-                        </Label>
-                        
-                    </HorizontalStackLayout>
+                                        <Setter Property="Command" Value="{Binding PlayButton, 
+                                                Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}" />
+                                        <Setter Property="CommandParameter" Value="{Binding .}" />
+                                    </DataTrigger>
+                                </components:CaButton.Triggers>
+                            </components:CaButton>
+                            <Label
+                                Style="{StaticResource FontAwesomeIcon}"
+                                Text="{x:Static font:FaSolidIcons.Pause}"
+                                IsVisible="{Binding IsPauseButtonVisible, Mode=TwoWay ,
+                                Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="PauseButton"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label
+                                Style="{StaticResource FontAwesomeIcon}"
+                                Text="{x:Static font:FaSolidIcons.Play}"
+                                IsVisible="{Binding IsPlayButtonVisible,Mode=TwoWay ,
+                                Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="PlayButton"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label
+                                Style="{StaticResource FontAwesomeIcon}"
+                                Text="{x:Static font:FaSolidIcons.Stop}"
+                                IsVisible="{Binding IsStopButtonVisible,Mode=TwoWay ,
+                                    Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="StopButton"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
