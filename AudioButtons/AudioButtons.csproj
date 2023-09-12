@@ -30,10 +30,10 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\iconabottone.svg" Color="#565554" ForegroundScale="0.65"  />
-
+		<MauiIcon Include="Resources\AppIcon\iconabottoneverdeross.svg" Color="#025866" ForegroundScale="0.65" />
+		
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\iconabottone.svg" Color="#565554" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\iconabottoneverdeross.svg" Color="#025866" Resize="false" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -51,6 +51,7 @@
 		<None Remove="Resources\Fonts\fa-solid-900.ttf" />
 		<None Remove="Resources\Fonts\TT-Commons-Bold.otf" />
 		<None Remove="Resources\Splash\iconabottone.svg" />
+		<None Remove="Resources\Splash\iconabottoneverdeross.svg" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,113 +1,111 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:viewModels="clr-namespace:AudioButtons.ViewModels"
-             xmlns:models="clr-namespace:AudioButtons.Models"
-             xmlns:converters="clr-namespace:AudioButtons.Converters"
-             xmlns:font="clr-namespace:AudioButtons.FontModels"
-             xmlns:components="clr-namespace:AudioButtons.Components"
-             x:Class="AudioButtons.MainPage"
-             x:DataType="viewModels:ButtonsViewModel"
-             Title="{Binding Title}"
-             NavigatedTo="MainPage_OnNavigatedTo">
+<ContentPage
+    x:Class="AudioButtons.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:AudioButtons.Components"
+    xmlns:converters="clr-namespace:AudioButtons.Converters"
+    xmlns:font="clr-namespace:AudioButtons.FontModels"
+    xmlns:models="clr-namespace:AudioButtons.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModels="clr-namespace:AudioButtons.ViewModels"
+    Title="{Binding Title}"
+    x:DataType="viewModels:ButtonsViewModel"
+    NavigatedTo="MainPage_OnNavigatedTo">
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <converters:RgbToStringConverter x:Key="RgbStringToColorConverter"/>
+            <converters:RgbToStringConverter x:Key="RgbStringToColorConverter" />
 
-            <Style ApplyToDerivedTypes="True" TargetType="Label" x:Key="FontAwesomeIcon">
-                <Setter Property="FontFamily" Value="FaSolid"/>
-                <Setter Property="HorizontalTextAlignment" Value="Center"/>
-                <Setter Property="VerticalTextAlignment" Value="Center"/>
+            <Style
+                x:Key="FontAwesomeIcon"
+                ApplyToDerivedTypes="True"
+                TargetType="Label">
+                <Setter Property="FontFamily" Value="FaSolid" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="TextColor" Value="{StaticResource Text}" />
-                <Setter Property="Margin" Value="5"/>
+                <Setter Property="Margin" Value="5" />
             </Style>
 
             <Style ApplyToDerivedTypes="True" TargetType="ContentPage">
-                <Setter Property="BackgroundColor" Value="{StaticResource Background}"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource Background}" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <Grid RowDefinitions="*,70,0">
-        <CollectionView x:Name="buttonsCollection" Grid.Row="0"
-                        ItemsSource="{Binding Buttons}"
-                        Margin="20" 
-                        SelectionMode="None">
+        <CollectionView
+            x:Name="buttonsCollection"
+            Grid.Row="0"
+            Margin="20"
+            ItemsSource="{Binding Buttons}"
+            SelectionMode="None">
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:ButtonAudio">
-                    <SwipeView>
-                        <SwipeView.LeftItems>
-                            <SwipeItems>
-                                <SwipeItemView>
-                                    <Label 
-                                        Style="{StaticResource FontAwesomeIcon}"
-                                        Text="{x:Static font:FaSolidIcons.Pencil}"/>
-                                </SwipeItemView>
-                                <SwipeItemView>
-                                    <Label 
-                                        Style="{StaticResource FontAwesomeIcon}"
-                                        Text="{x:Static font:FaSolidIcons.Trash}"/>
-                                </SwipeItemView>
-                            </SwipeItems>
-                        </SwipeView.LeftItems>
-                        <HorizontalStackLayout>
-                            <components:CaButton HorizontalOptions="Start" Text="{Binding Name}"
-                                WidthRequest="{Binding Width,Source={RelativeSource AncestorType={x:Type CollectionView}}}"
-                                BackgroundColor="{Binding Color, Converter={StaticResource RgbStringToColorConverter}}" 
-                                ShortPressed="Button_OnPressed" LongPressed="CaButton_OnLongPressed">
-                                <components:CaButton.Triggers>
-                                    <DataTrigger TargetType="Button" Binding="{Binding .}"
-                                             Value="{x:Type models:ButtonAudio}">
-                                        <Setter Property="Command" Value="{Binding PlayButton, 
-                                                Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}" />
-                                        <Setter Property="CommandParameter" Value="{Binding .}" />
-                                    </DataTrigger>
-                                </components:CaButton.Triggers>
-                            </components:CaButton>
-                            <Label
-                                Style="{StaticResource FontAwesomeIcon}"
-                                Text="{x:Static font:FaSolidIcons.Pause}"
-                                IsVisible="{Binding IsPauseButtonVisible, Mode=TwoWay ,
-                                Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="PauseButton"/>
-                                </Label.GestureRecognizers>
-                            </Label>
-                            <Label
-                                Style="{StaticResource FontAwesomeIcon}"
-                                Text="{x:Static font:FaSolidIcons.Play}"
-                                IsVisible="{Binding IsPlayButtonVisible,Mode=TwoWay ,
-                                Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="PlayButton"/>
-                                </Label.GestureRecognizers>
-                            </Label>
-                            <Label
-                                Style="{StaticResource FontAwesomeIcon}"
-                                Text="{x:Static font:FaSolidIcons.Stop}"
-                                IsVisible="{Binding IsStopButtonVisible,Mode=TwoWay ,
-                                    Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="StopButton"/>
-                                </Label.GestureRecognizers>
-                            </Label>
-                        </HorizontalStackLayout>
-                    </SwipeView>
+                    <HorizontalStackLayout>
+                        <components:CaButton
+                            BackgroundColor="{Binding Color, Converter={StaticResource RgbStringToColorConverter}}"
+                            HorizontalOptions="Start"
+                            LongPressed="CaButton_OnLongPressed"
+                            ShortPressed="Button_OnPressed"
+                            Text="{Binding Name}"
+                            WidthRequest="{Binding Width, Source={RelativeSource AncestorType={x:Type CollectionView}}}">
+                            <components:CaButton.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding .}"
+                                    TargetType="Button"
+                                    Value="{x:Type models:ButtonAudio}">
+                                    <Setter Property="Command" Value="{Binding PlayButton, Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}" />
+                                    <Setter Property="CommandParameter" Value="{Binding .}" />
+                                </DataTrigger>
+                            </components:CaButton.Triggers>
+                        </components:CaButton>
+                        <Label
+                            IsVisible="{Binding IsPauseButtonVisible, Mode=TwoWay, Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}"
+                            Style="{StaticResource FontAwesomeIcon}"
+                            Text="{x:Static font:FaSolidIcons.Pause}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PauseButton" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label
+                            IsVisible="{Binding IsPlayButtonVisible, Mode=TwoWay, Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}"
+                            Style="{StaticResource FontAwesomeIcon}"
+                            Text="{x:Static font:FaSolidIcons.Play}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PlayButton" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label
+                            IsVisible="{Binding IsStopButtonVisible, Mode=TwoWay, Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}"
+                            Style="{StaticResource FontAwesomeIcon}"
+                            Text="{x:Static font:FaSolidIcons.Stop}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="StopButton" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </HorizontalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Button Text="Aggiungi" Grid.Row="1"
-                Margin="10" BackgroundColor="{StaticResource Primary}"
-                Command="{Binding NewButton}"/>
-        <toolkit:MediaElement Source="{Binding MediaSource}" x:Name="MediaElement"
-                              Grid.Row="2" ShouldAutoPlay="False" MediaEnded="MediaElement_OnMediaEnded" />
+        <Button
+            Grid.Row="1"
+            Margin="10"
+            BackgroundColor="{StaticResource Primary}"
+            Command="{Binding NewButton}"
+            Text="Aggiungi" />
+        <toolkit:MediaElement
+            x:Name="MediaElement"
+            Grid.Row="2"
+            MediaEnded="MediaElement_OnMediaEnded"
+            ShouldAutoPlay="False"
+            Source="{Binding MediaSource}" />
     </Grid>
 
 </ContentPage>
