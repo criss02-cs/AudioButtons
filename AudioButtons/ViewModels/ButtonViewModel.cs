@@ -13,78 +13,26 @@ using Newtonsoft.Json;
 
 namespace AudioButtons.ViewModels
 {
-    [QueryProperty("_button", "Button")]
+    [QueryProperty("Button", "Button")]
     public partial class ButtonViewModel : BaseViewModel
     {
-        private readonly ButtonAudio _button;
         private Database _db;
 
-        public string Name
-        {
-            get => _button.Name;
-            set
-            {
-                if (_button.Name == value) return;
-                _button.Name = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(IsSaveButtonEnabled));
-            }
-        }
-        public string AudioPath
-        {
-            get => _button.Audio.FilePath;
-            set
-            {
-                if (_button.Audio.FilePath == value) return;
-                _button.Audio.FilePath = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(IsSaveButtonEnabled));
-            }
-        }
-
-        public bool IsPlayLoop
-        {
-            get => _button.Audio.PlayLoop;
-            set
-            {
-                if (_button.Audio.PlayLoop == value) return;
-                _button.Audio.PlayLoop = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Color
-        {
-            get => _button.Color;
-            set
-            {
-                if (_button.Color == value) return;
-                _button.Color = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public event EventHandlerAsync EndLoadEvent;
-
-        public bool IsSaveButtonEnabled => !string.IsNullOrEmpty(_button.Name) && !string.IsNullOrEmpty(_button.Audio.FilePath);
-
-        public ICommand PlayAudio { get; private set; }
-        public ICommand LoadAudio { get; private set; }
-        public ICommand SaveCommand { get; private set; }
-
+        [ObservableProperty] 
+        [NotifyPropertyChangedFor(nameof(IsSaveButtonEnabled))]
+        private ButtonAudio button;
+        public bool IsSaveButtonEnabled => !string.IsNullOrEmpty(Button.Name) && !string.IsNullOrEmpty(Button.Audio.FilePath);
         public ButtonViewModel(Database db)
         {
             _db = db;
-            _button = new ButtonAudio();
-            LoadAudio = new AsyncRelayCommand(OpenAudioFromFile);
-            SaveCommand = new AsyncRelayCommand(SaveFile);
+            Button.Audio ??= new Audio();
         }
-        
+        [RelayCommand]
         private async Task SaveFile()
         {
             await _db.Init();
-            _button.Id = Guid.NewGuid();
-            var rows = await _db.SaveItemAsync(_button);
+            Button.Id = Guid.NewGuid();
+            var rows = await _db.SaveItemAsync(Button);
             if (rows == 0)
             {
                 await Application.Current.MainPage.DisplayAlert("Errore", "C'è stato un problema nel salvataggio del bottone", "Ok");
@@ -94,7 +42,7 @@ namespace AudioButtons.ViewModels
                 await Back();
             }
         }
-
+        [RelayCommand]
         private async Task OpenAudioFromFile()
         {
             try
@@ -115,8 +63,8 @@ namespace AudioButtons.ViewModels
                 if (result is not null)
                 {
                     await _db.Init();
-                    AudioPath = result.FullPath;
-                    _button.SerializedAudio = JsonConvert.SerializeObject(_button.Audio);
+                    Button.Audio.FilePath = result.FullPath;
+                    Button.SerializedAudio = JsonConvert.SerializeObject(Button.Audio);
                 }
             }
             catch (Exception e)

@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage
     x:Class="AudioButtons.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -51,7 +52,9 @@
                         <components:CaButton
                             BackgroundColor="{Binding Color, Converter={StaticResource RgbStringToColorConverter}}"
                             HorizontalOptions="Start"
-                            LongPressed="CaButton_OnLongPressed"
+                            LongCommand="{Binding ModifyButton, 
+                                Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}"
+                            LongCommandParameter="{Binding .}"
                             ShortPressed="Button_OnPressed"
                             Text="{Binding Name}"
                             WidthRequest="{Binding Width, Source={RelativeSource AncestorType={x:Type CollectionView}}}">
@@ -60,13 +63,16 @@
                                     Binding="{Binding .}"
                                     TargetType="Button"
                                     Value="{x:Type models:ButtonAudio}">
-                                    <Setter Property="Command" Value="{Binding PlayButton, Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}" />
+                                    <Setter Property="Command"
+                                            Value="{Binding PlayButtonAsyncCommand, 
+                                            Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}" />
                                     <Setter Property="CommandParameter" Value="{Binding .}" />
                                 </DataTrigger>
                             </components:CaButton.Triggers>
                         </components:CaButton>
                         <Label
-                            IsVisible="{Binding IsPauseButtonVisible, Mode=TwoWay, Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}"
+                            IsVisible="{Binding IsPauseButtonVisible, Mode=TwoWay, 
+                                Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}"
                             Style="{StaticResource FontAwesomeIcon}"
                             Text="{x:Static font:FaSolidIcons.Pause}">
                             <Label.GestureRecognizers>
@@ -98,7 +104,7 @@
             Grid.Row="1"
             Margin="10"
             BackgroundColor="{StaticResource Primary}"
-            Command="{Binding NewButton}"
+            Command="{Binding AddNewButtonCommand}"
             Text="Aggiungi" />
         <toolkit:MediaElement
             x:Name="MediaElement"

@@ -2,105 +2,56 @@
 using System.Diagnostics;
 using AudioButtons.Models;
 using AudioButtons.Views;
-using CA.Maui.Attributes;
 using CA.Maui.Commands;
 using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 
 namespace AudioButtons.ViewModels
 {
-    public class ButtonsViewModel : BaseViewModel
+    public partial class ButtonsViewModel : BaseViewModel
     {
         private Database _db;
         public ObservableCollection<ButtonAudio> Buttons { get; private set; } = new();
-        
-        public ICaCommand NewButton { get; }
-        public ICaCommand DeleteButton { get; }
         public ICaCommand ModifyButton { get; }
-        public ICaCommand PlayButton { get; }
-        public ICaCommand LoadButtonsCommand { get; }
-        public ICaCommand GoToPageCommand { get; }
-
-        private MediaSource _mediaSource;
-
-        private bool _isPlayButtonVisible = false;
-        private bool _isPauseButtonVisible = false;
-        private bool _isStopButtonVisible = false;
-
-        public MediaSource MediaSource
-        {
-            get => _mediaSource;
-            set
-            {
-                if(value == _mediaSource) return;
-                _mediaSource = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool IsPlayButtonVisible
-        {
-            get => _isPlayButtonVisible;
-            set
-            {
-                if(value == _isPlayButtonVisible) return;
-                _isPlayButtonVisible = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool IsPauseButtonVisible
-        {
-            get => _isPauseButtonVisible;
-            set
-            {
-                if (value == _isPauseButtonVisible) return;
-                _isPauseButtonVisible = value;
-                OnPropertyChanged();
-            }
-        }
-        public bool IsStopButtonVisible
-        {
-            get => _isStopButtonVisible;
-            set
-            {
-                if (value == _isStopButtonVisible) return;
-                _isStopButtonVisible = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty] private MediaSource mediaSource;
+        [ObservableProperty] private bool isPlayButtonVisible = false;
+        [ObservableProperty] private bool isPauseButtonVisible = false;
+        [ObservableProperty] private bool isStopButtonVisible = false;
 
         public ButtonsViewModel(Database db)
         {
             _db = db;
             Title = "Bottoni sonori";
             Task.Run(LoadButtons);
-            DeleteButton = new CaCommand<ButtonAudio>(DeleteButtonAsync);
-            NewButton = new CaCommand(o => AddNewButtonAsync());
-            PlayButton = new CaCommand<ButtonAudio>(PlayButtonAsync);
-            LoadButtonsCommand = new CaCommand(o => LoadButtons());
-            GoToPageCommand = new CaCommand<ButtonAudio>(GoToPage);
+            ModifyButton = new CaCommand<ButtonAudio>(GoToPage);
         }
 
-
+        [RelayCommand]
         private void DeleteButtonAsync(ButtonAudio button)
         {
-            if(!Buttons.Contains(button)) { return; }
+            if (!Buttons.Contains(button))
+            {
+                return;
+            }
+
             Buttons.Remove(button);
             // TODO eliminare il bottone anche dal db
         }
-
+        [RelayCommand]
         private Task AddNewButtonAsync() => Shell.Current.GoToAsync(nameof(ButtonPage));
-
+        [RelayCommand]
         private void PlayButtonAsync(ButtonAudio button)
         {
             if (button.Audio.FilePath.Length == 0)
             {
                 return;
             }
+
             MediaSource = MediaSource.FromFile(button.Audio.FilePath);
         }
-
+        [RelayCommand]
         private async Task LoadButtons()
         {
             if (IsBusy)
@@ -117,6 +68,7 @@ namespace AudioButtons.ViewModels
                 {
                     Buttons.Clear();
                 }
+
                 list.ForEach(x => Buttons.Add(x));
             }
             catch (Exception e)

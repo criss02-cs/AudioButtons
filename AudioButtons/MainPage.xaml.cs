@@ -19,7 +19,7 @@ namespace AudioButtons
         private void Button_OnPressed(object sender, EventArgs e)
         {
             var button = (Button)sender;
-            ViewModel.PlayButton.Execute(button.BindingContext as ButtonAudio);
+            ViewModel.PlayButtonAsyncCommand.Execute(button.BindingContext as ButtonAudio);
             if (_buttonWidthAnimation is not null && !_buttonWidthAnimation.IsAnimationReset)
             {
                 MediaElement.Stop();
@@ -113,10 +113,8 @@ namespace AudioButtons
         {
             if (sender is CaButton button)
             {
-                //ViewModel.GoToPage();
-                Application.Current.MainPage.DisplayAlert("Errore!", "CAButton", "Ok");
+                ViewModel.ModifyButton.Execute(button.CommandParameter);
             }
-            
         }
     }
 }
