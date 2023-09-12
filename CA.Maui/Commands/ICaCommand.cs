@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace AudioButtons.Components.Commands
+namespace CA.Maui.Commands
 {
-    public interface ICACommand : ICommand
+    public interface ICaCommand : ICommand
     {
         void DisableExecution();
         void EnableExecution();

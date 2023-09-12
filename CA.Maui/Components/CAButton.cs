@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using AudioButtons.Components.Commands;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.Maui.Controls.Compatibility.Platform.Android;
+﻿using System.Diagnostics;
+using CA.Maui.Commands;
 
-namespace AudioButtons.Components
+
+namespace CA.Maui.Components
 {
     public class CaButton : Button
     {
@@ -18,8 +11,8 @@ namespace AudioButtons.Components
         public static readonly BindableProperty ThresholdProperty = BindableProperty.Create(
             nameof(Threshold), typeof(int), typeof(CaButton), 500);
         public static readonly BindableProperty CaCommandProperty = BindableProperty.Create(
-            nameof(CaCommand), typeof(ICACommand), typeof(CaButton), null);
-        public ICACommand CaCommand { get => (ICACommand)GetValue(CaCommandProperty); set => SetValue(CaCommandProperty, value); }
+            nameof(CaCommand), typeof(ICaCommand), typeof(CaButton), null);
+        public ICaCommand CaCommand { get => (ICaCommand)GetValue(CaCommandProperty); set => SetValue(CaCommandProperty, value); }
         public int Threshold { get => (int)GetValue(ThresholdProperty); set => SetValue(ThresholdProperty, value); }
 
         public CaButton()

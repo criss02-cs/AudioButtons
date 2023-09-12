@@ -1,4 +1,4 @@
-namespace AudioButtons.Components;
+namespace CA.Maui.Components;
 
 public partial class RgbColorPicker : ContentView
 {
@@ -18,6 +18,8 @@ public partial class RgbColorPicker : ContentView
             control.Rgb = $"({control._red}, {control._green}, {control._blue})";
             //var control = (RgbColorPicker)bindable;
         });
+    public static readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(
+        nameof(BackgroundColor), typeof(Color), typeof(RgbColorPicker));
 
     public RgbColorPicker()
     {
@@ -31,6 +33,9 @@ public partial class RgbColorPicker : ContentView
         get => (string)GetValue(RgbProperty);
         set => SetValue(RgbProperty, value);
     }
+
+    // metto la parola new per nascondere quello di base
+    public new Color BackgroundColor { get => (Color)GetValue(BackgroundColorProperty); set => SetValue(BackgroundColorProperty, value); }
 
     private void Slider_OnValueChanged(object sender, ValueChangedEventArgs e)
     {

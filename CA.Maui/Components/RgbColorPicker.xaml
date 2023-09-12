@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:components="clr-namespace:AudioButtons.Components"
-             x:Class="AudioButtons.Components.RgbColorPicker">
+             xmlns:components="clr-namespace:CA.Maui.Components"
+             x:Class="CA.Maui.Components.RgbColorPicker">
     <VerticalStackLayout>
         <Border>
-            <Grid BackgroundColor="{StaticResource Background}">
+            <Grid BackgroundColor="{Binding BackgroundColor, Source={RelativeSource 
+                AncestorType={x:Type components:RgbColorPicker}}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="25"/>
                     <ColumnDefinition Width="*"/>

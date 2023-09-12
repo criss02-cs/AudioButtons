@@ -1,12 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Windows.Input;
-using AudioButtons.Attributes;
-using AudioButtons.Components.Commands;
 using AudioButtons.Models;
 using AudioButtons.Views;
+using CA.Maui.Attributes;
+using CA.Maui.Commands;
 using CommunityToolkit.Maui.Views;
-using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 
 namespace AudioButtons.ViewModels
@@ -16,11 +14,11 @@ namespace AudioButtons.ViewModels
         private Database _db;
         public ObservableCollection<ButtonAudio> Buttons { get; private set; } = new();
         
-        public ICACommand NewButton { get; }
-        public ICACommand DeleteButton { get; }
-        public ICACommand ModifyButton { get; }
-        public ICACommand PlayButton { get; }
-        public ICACommand LoadButtonsCommand { get; }
+        public ICaCommand NewButton { get; }
+        public ICaCommand DeleteButton { get; }
+        public ICaCommand ModifyButton { get; }
+        public ICaCommand PlayButton { get; }
+        public ICaCommand LoadButtonsCommand { get; }
 
         private MediaSource _mediaSource;
 
@@ -76,10 +74,10 @@ namespace AudioButtons.ViewModels
             _db = db;
             Title = "Bottoni sonori";
             Task.Run(LoadButtons);
-            DeleteButton = new CACommand<ButtonAudio>(DeleteButtonAsync);
-            NewButton = new CACommand(o => AddNewButtonAsync());
-            PlayButton = new CACommand<ButtonAudio>(PlayButtonAsync);
-            LoadButtonsCommand = new CACommand(o => LoadButtons());
+            DeleteButton = new CaCommand<ButtonAudio>(DeleteButtonAsync);
+            NewButton = new CaCommand(o => AddNewButtonAsync());
+            PlayButton = new CaCommand<ButtonAudio>(PlayButtonAsync);
+            LoadButtonsCommand = new CaCommand(o => LoadButtons());
         }
 
 

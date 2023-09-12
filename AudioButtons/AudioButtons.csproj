@@ -66,15 +66,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<MauiXaml Update="Components\ButtonAudioBottomSheet.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="Components\ButtonAudioComponent.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="Components\RgbColorPicker.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
+	  <ProjectReference Include="..\CA.Maui\CA.Maui.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<MauiXaml Update="Resources\Styles\Palette.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

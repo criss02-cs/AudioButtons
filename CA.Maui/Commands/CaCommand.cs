@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace AudioButtons.Components.Commands
+namespace CA.Maui.Commands
 {
-    public sealed class CACommand<T> : CACommand
+    public sealed class CaCommand<T> : CaCommand
     {
-        public CACommand(Action<T> execute) :
+        public CaCommand(Action<T> execute) :
             base(o =>
             {
                 if (IsValidParameter(o))
@@ -21,7 +21,7 @@ namespace AudioButtons.Components.Commands
             ArgumentNullException.ThrowIfNull(execute, nameof(execute));
         }
 
-        public CACommand(Action<T> execute, Func<T, bool> canExecute)
+        public CaCommand(Action<T> execute, Func<T, bool> canExecute)
             : base(o =>
             {
                 if (IsValidParameter(o))
@@ -52,31 +52,31 @@ namespace AudioButtons.Components.Commands
             return !t.IsValueType;
         }
     }
-    public class CACommand : ICACommand
+    public class CaCommand : ICaCommand
     {
         private Action<object> _execute;
         private Func<object, bool> _canExecuteFunc;
         private bool _canExecute;
 
-        public CACommand(Action<object> execute)
+        public CaCommand(Action<object> execute)
         {
             ArgumentNullException.ThrowIfNull(execute);
             _execute = execute;
             _canExecute = true;
         }
 
-        public CACommand(Action execute) : this(o => execute())
+        public CaCommand(Action execute) : this(o => execute())
         {
             ArgumentNullException.ThrowIfNull(execute);
         }
 
-        public CACommand(Action<object> execute, Func<object, bool> canExecute) : this(execute)
+        public CaCommand(Action<object> execute, Func<object, bool> canExecute) : this(execute)
         {
             ArgumentNullException.ThrowIfNull(canExecute);
             _canExecuteFunc = canExecute;
         }
 
-        public CACommand(Action execute, Func<bool> canExecute) : this(o => execute(), o => canExecute())
+        public CaCommand(Action execute, Func<bool> canExecute) : this(o => execute(), o => canExecute())
         {
             ArgumentNullException.ThrowIfNull(execute);
             ArgumentNullException.ThrowIfNull(canExecute);
