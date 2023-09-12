@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AudioButtons.Views.ButtonPage"
              xmlns:viewModels="clr-namespace:AudioButtons.ViewModels"
-             xmlns:components="clr-namespace:AudioButtons.Components"
+             xmlns:components="clr-namespace:CA.Maui.Components;assembly=CA.Maui"
              xmlns:views="clr-namespace:AudioButtons.Views"
              xmlns:converters="clr-namespace:AudioButtons.Converters"
              x:DataType="viewModels:ButtonViewModel"

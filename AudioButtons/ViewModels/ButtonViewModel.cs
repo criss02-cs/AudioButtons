@@ -13,7 +13,8 @@ using Newtonsoft.Json;
 
 namespace AudioButtons.ViewModels
 {
-    public partial class ButtonViewModel : ObservableObject
+    [QueryProperty("_button", "Button")]
+    public partial class ButtonViewModel : BaseViewModel
     {
         private readonly ButtonAudio _button;
         private Database _db;

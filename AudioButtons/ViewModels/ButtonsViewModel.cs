@@ -19,6 +19,7 @@ namespace AudioButtons.ViewModels
         public ICaCommand ModifyButton { get; }
         public ICaCommand PlayButton { get; }
         public ICaCommand LoadButtonsCommand { get; }
+        public ICaCommand GoToPageCommand { get; }
 
         private MediaSource _mediaSource;
 
@@ -78,6 +79,7 @@ namespace AudioButtons.ViewModels
             NewButton = new CaCommand(o => AddNewButtonAsync());
             PlayButton = new CaCommand<ButtonAudio>(PlayButtonAsync);
             LoadButtonsCommand = new CaCommand(o => LoadButtons());
+            GoToPageCommand = new CaCommand<ButtonAudio>(GoToPage);
         }
 
 
@@ -128,10 +130,13 @@ namespace AudioButtons.ViewModels
             }
         }
 
-        [CaCommand]
         public void GoToPage(ButtonAudio button)
         {
-
+            var navigationParameter = new Dictionary<string, object>
+            {
+                { "Button", button }
+            };
+            Shell.Current.GoToAsync(nameof(ButtonPage), navigationParameter);
         }
     }
 }
