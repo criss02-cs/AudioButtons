@@ -78,9 +78,7 @@ namespace AudioButtons.ViewModels
             LoadAudio = new AsyncRelayCommand(OpenAudioFromFile);
             SaveCommand = new AsyncRelayCommand(SaveFile);
         }
-
-        public ButtonViewModel(ButtonAudio button) => _button = button;
-
+        
         private async Task SaveFile()
         {
             await _db.Init();
@@ -127,6 +125,6 @@ namespace AudioButtons.ViewModels
         }
 
         [RelayCommand]
-        Task Back() => Shell.Current.GoToAsync("..");
+        private Task Back() => Shell.Current.GoToAsync("..");
     }
 }

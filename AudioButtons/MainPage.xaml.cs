@@ -114,6 +114,7 @@ namespace AudioButtons
         {
             if (sender is CaButton button)
             {
+                //ViewModel.GoToPage();
                 Application.Current.MainPage.DisplayAlert("Errore!", "CAButton", "Ok");
             }
             

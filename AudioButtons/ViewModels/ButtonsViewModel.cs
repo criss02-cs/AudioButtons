@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
+using AudioButtons.Attributes;
 using AudioButtons.Components.Commands;
 using AudioButtons.Models;
 using AudioButtons.Views;
@@ -129,5 +130,10 @@ namespace AudioButtons.ViewModels
             }
         }
 
+        [CaCommand]
+        public void GoToPage(ButtonAudio button)
+        {
+
+        }
     }
 }
