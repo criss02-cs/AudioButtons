@@ -52,8 +52,7 @@
                         <components:CaButton
                             BackgroundColor="{Binding Color, Converter={StaticResource RgbStringToColorConverter}}"
                             HorizontalOptions="Start"
-                            LongCommand="{Binding ModifyButton, 
-                                Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}"
+                            LongPressed="CaButton_OnLongPressed"
                             LongCommandParameter="{Binding .}"
                             ShortPressed="Button_OnPressed"
                             Text="{Binding Name}"

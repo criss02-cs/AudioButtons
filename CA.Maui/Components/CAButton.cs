@@ -14,8 +14,8 @@ namespace CA.Maui.Components
         private static readonly BindableProperty CaCommandProperty = BindableProperty.Create(
             nameof(CaCommand), typeof(ICaCommand), typeof(CaButton), null);
 
-        private static readonly BindableProperty LongCommandProperty = BindableProperty.Create(
-            nameof(LongCommand), typeof(ICaCommand), typeof(CaButton), null);
+        private static readonly BindableProperty LongPressCommandProperty = BindableProperty.Create(
+            nameof(LongPressCommand), typeof(ICaCommand), typeof(CaButton), null);
 
         private static readonly BindableProperty LongCommandParameterProperty = BindableProperty.Create(
             nameof(LongCommandParameter), typeof(object), typeof(CaButton), null);
@@ -26,10 +26,10 @@ namespace CA.Maui.Components
             set => SetValue(CaCommandProperty, value);
         }
         
-        public ICaCommand LongCommand
+        public ICaCommand LongPressCommand
         {
-            get => (ICaCommand)GetValue(LongCommandProperty);
-            set => SetValue(LongCommandProperty, value);
+            get => (ICaCommand)GetValue(LongPressCommandProperty);
+            set => SetValue(LongPressCommandProperty, value);
         }
 
         public object LongCommandParameter
@@ -67,12 +67,12 @@ namespace CA.Maui.Components
             {
                 CaCommand?.DisableExecution();
                 LongPressed?.Invoke(this, EventArgs.Empty);
-                LongCommand?.EnableExecution();
-                LongCommand?.Execute(LongCommandParameter);
+                LongPressCommand?.EnableExecution();
+                LongPressCommand?.Execute(LongCommandParameter);
             }
             else
             {
-                LongCommand?.DisableExecution();
+                LongPressCommand?.DisableExecution();
                 CaCommand?.EnableExecution();
                 ShortPressed?.Invoke(this, EventArgs.Empty);
             }

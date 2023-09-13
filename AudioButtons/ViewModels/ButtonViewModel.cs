@@ -20,7 +20,7 @@ namespace AudioButtons.ViewModels
 
         [ObservableProperty] 
         [NotifyPropertyChangedFor(nameof(IsSaveButtonEnabled))]
-        private ButtonAudio button;
+        private ButtonAudio button = new ButtonAudio();
         public bool IsSaveButtonEnabled => !string.IsNullOrEmpty(Button.Name) && !string.IsNullOrEmpty(Button.Audio.FilePath);
         public ButtonViewModel(Database db)
         {

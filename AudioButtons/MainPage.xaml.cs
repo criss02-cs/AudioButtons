@@ -113,7 +113,8 @@ namespace AudioButtons
         {
             if (sender is CaButton button)
             {
-                ViewModel.ModifyButton.Execute(button.CommandParameter);
+                ViewModel.ModifyButton.EnableExecution();
+                ViewModel.ModifyButton.Execute(button.LongCommandParameter);
             }
         }
     }

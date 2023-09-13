@@ -82,7 +82,7 @@ namespace AudioButtons.ViewModels
             }
         }
 
-        public void GoToPage(ButtonAudio button)
+        private void GoToPage(ButtonAudio button)
         {
             var navigationParameter = new Dictionary<string, object>
             {
