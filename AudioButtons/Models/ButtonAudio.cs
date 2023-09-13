@@ -10,11 +10,10 @@ namespace AudioButtons.Models
 {
     public class ButtonAudio
     {
-        private Audio _audio = new();
         [PrimaryKey]
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string SerializedAudio { get; set; } = string.Empty;
+        public string FilePath { get; set; }
         public string Color { get; set; } = "(0,0,0)";
 
         public ButtonAudio()
@@ -22,16 +21,5 @@ namespace AudioButtons.Models
             Id = Guid.NewGuid();
         }
 
-        [Ignore]
-        public Audio Audio
-        {
-            get => _audio;
-            set
-            {
-                if (_audio == value) return;
-                _audio = value;
-                SerializedAudio = JsonConvert.SerializeObject(value);
-            }
-        }
     }
 }

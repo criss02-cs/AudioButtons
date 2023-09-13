@@ -20,12 +20,11 @@ namespace AudioButtons.ViewModels
 
         [ObservableProperty] 
         [NotifyPropertyChangedFor(nameof(IsSaveButtonEnabled))]
-        private ButtonAudio button = new ButtonAudio();
-        public bool IsSaveButtonEnabled => !string.IsNullOrEmpty(Button.Name) && !string.IsNullOrEmpty(Button.Audio.FilePath);
+        private ButtonAudio button = new();
+        public bool IsSaveButtonEnabled => !string.IsNullOrEmpty(Button.Name) && !string.IsNullOrEmpty(Button.FilePath);
         public ButtonViewModel(Database db)
         {
             _db = db;
-            Button.Audio ??= new Audio();
         }
         [RelayCommand]
         private async Task SaveFile()
@@ -63,8 +62,7 @@ namespace AudioButtons.ViewModels
                 if (result is not null)
                 {
                     await _db.Init();
-                    Button.Audio.FilePath = result.FullPath;
-                    Button.SerializedAudio = JsonConvert.SerializeObject(Button.Audio);
+                    Button.FilePath = result.FullPath;
                 }
             }
             catch (Exception e)

@@ -44,12 +44,12 @@ namespace AudioButtons.ViewModels
         [RelayCommand]
         private void PlayButtonAsync(ButtonAudio button)
         {
-            if (button.Audio.FilePath.Length == 0)
+            if (button.FilePath.Length == 0)
             {
                 return;
             }
 
-            MediaSource = MediaSource.FromFile(button.Audio.FilePath);
+            MediaSource = MediaSource.FromFile(button.FilePath);
         }
         [RelayCommand]
         private async Task LoadButtons()
@@ -63,7 +63,6 @@ namespace AudioButtons.ViewModels
             {
                 IsBusy = true;
                 var list = await _db.GetAllButtons();
-                list.ForEach(x => x.Audio = JsonConvert.DeserializeObject<Audio>(x.SerializedAudio));
                 if (Buttons.Count > 0)
                 {
                     Buttons.Clear();

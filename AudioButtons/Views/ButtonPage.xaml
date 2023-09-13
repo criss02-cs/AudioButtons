@@ -26,7 +26,7 @@
                Placeholder="Inserisci il nome"/>
         <Label Text="Percorso"  />
         <Grid ColumnDefinitions="7.5*, *">
-            <Entry Grid.Column="0" Text="{Binding Button.Audio.FilePath, Mode=TwoWay}" 
+            <Entry Grid.Column="0" Text="{Binding Button.FilePath, Mode=TwoWay}" 
                    IsEnabled="False"/>
             <Button Grid.Column="1" Text="..." Command="{Binding OpenAudioFromFileCommand}"/>
         </Grid>
