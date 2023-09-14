@@ -40,7 +40,10 @@ namespace AudioButtons.ViewModels
             // TODO eliminare il bottone anche dal db
         }
         [RelayCommand]
-        private Task AddNewButtonAsync() => Shell.Current.GoToAsync(nameof(ButtonPage));
+        private Task AddNewButtonAsync() => Shell.Current.GoToAsync(nameof(ButtonPage), new Dictionary<string, object>
+        {
+            ["Button"] = new ButtonAudio()
+        });
         [RelayCommand]
         private void PlayButtonAsync(ButtonAudio button)
         {
@@ -85,7 +88,7 @@ namespace AudioButtons.ViewModels
         {
             var navigationParameter = new Dictionary<string, object>
             {
-                { "Button", button }
+                ["Button"] = button
             };
             Shell.Current.GoToAsync(nameof(ButtonPage), navigationParameter);
         }

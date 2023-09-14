@@ -4,12 +4,18 @@ namespace AudioButtons.Views;
 
 public partial class ButtonPage : ContentPage
 {
-	public ButtonPage()
+	public ButtonPage(ButtonViewModel vm)
 	{
 		InitializeComponent();
-        var viewModel = Application.Current.Handler.MauiContext.Services.GetService(typeof(ButtonViewModel)) as ButtonViewModel;
-		BindingContext = viewModel;
+		BindingContext = vm;
+        Console.WriteLine(NameEntry.Text.Length);
     }
 
-	private ButtonViewModel ViewModel => BindingContext as ButtonViewModel;
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+    }
+
+    private ButtonViewModel ViewModel => BindingContext as ButtonViewModel;
+
 }

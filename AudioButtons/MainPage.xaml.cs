@@ -2,6 +2,7 @@
 using AudioButtons.Models;
 using AudioButtons.ViewModels;
 using System.Reflection;
+using AudioButtons.Views;
 using CA.Maui.Components;
 
 namespace AudioButtons
@@ -9,11 +10,10 @@ namespace AudioButtons
     public partial class MainPage
     {
         private ButtonWidthAnimation _buttonWidthAnimation;
-        public MainPage()
+        public MainPage(ButtonsViewModel vm)
         {
             InitializeComponent();
-            var viewModel = Application.Current.Handler.MauiContext.Services.GetService(typeof(ButtonsViewModel)) as ButtonsViewModel;
-            BindingContext = viewModel;
+            BindingContext = vm;
         }
 
         private void Button_OnPressed(object sender, EventArgs e)
@@ -111,10 +111,13 @@ namespace AudioButtons
 
         private void CaButton_OnLongPressed(object sender, EventArgs e)
         {
-            if (sender is CaButton button)
+            if (((VisualElement)sender).BindingContext is ButtonAudio button)
             {
-                ViewModel.ModifyButton.EnableExecution();
-                ViewModel.ModifyButton.Execute(button.LongCommandParameter);
+                var navigationParameter = new Dictionary<string, object>
+                {
+                    ["Button"] = button
+                };
+                Shell.Current.GoToAsync(nameof(ButtonPage), true, navigationParameter);
             }
         }
     }

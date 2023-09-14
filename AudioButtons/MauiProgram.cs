@@ -1,4 +1,5 @@
 ﻿using AudioButtons.ViewModels;
+using AudioButtons.Views;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using The49.Maui.BottomSheet;
@@ -26,6 +27,9 @@ namespace AudioButtons
             builder.Services.AddSingleton<Database>();
             builder.Services.AddSingleton<ButtonsViewModel>();
             builder.Services.AddTransient<ButtonViewModel>();
+
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddTransient<ButtonPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

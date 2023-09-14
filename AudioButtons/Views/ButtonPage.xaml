@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AudioButtons.Views.ButtonPage"
-             xmlns:viewModels="clr-namespace:AudioButtons.ViewModels"
-             xmlns:components="clr-namespace:CA.Maui.Components;assembly=CA.Maui"
-             xmlns:views="clr-namespace:AudioButtons.Views"
-             xmlns:converters="clr-namespace:AudioButtons.Converters"
-             x:DataType="viewModels:ButtonViewModel"
-             Title="Nuovo bottone">
+<ContentPage
+    x:Class="AudioButtons.Views.ButtonPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:CA.Maui.Components;assembly=CA.Maui"
+    xmlns:converters="clr-namespace:AudioButtons.Converters"
+    xmlns:viewModels="clr-namespace:AudioButtons.ViewModels"
+    xmlns:views="clr-namespace:AudioButtons.Views"
+    Title="Nuovo bottone"
+    x:DataType="viewModels:ButtonViewModel">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style ApplyToDerivedTypes="True" TargetType="Label">
@@ -15,24 +16,31 @@
             </Style>
 
             <Style ApplyToDerivedTypes="True" TargetType="ContentPage">
-                <Setter Property="BackgroundColor" Value="{StaticResource Background}"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource Background}" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
-    <VerticalStackLayout
-        Margin="10">
-        <Label Text="Nome"/>
-        <Entry Text="{Binding Button.Name}"
-               Placeholder="Inserisci il nome"/>
-        <Label Text="Percorso"  />
+    <VerticalStackLayout Margin="10">
+        <Label Text="Nome" />
+        <Entry
+            x:Name="NameEntry"
+            Placeholder="Inserisci il nome"
+            Text="{Binding Name, FallbackValue=''}" />
+        <Label Text="Percorso" />
         <Grid ColumnDefinitions="7.5*, *">
-            <Entry Grid.Column="0" Text="{Binding Button.FilePath, Mode=TwoWay}" 
-                   IsEnabled="False"/>
-            <Button Grid.Column="1" Text="..." Command="{Binding OpenAudioFromFileCommand}"/>
+            <Entry
+                x:Name="PathEntry"
+                Grid.Column="0"
+                IsReadOnly="True"
+                Text="{Binding FilePath, Mode=TwoWay, FallbackValue=''}" />
+            <Button
+                Grid.Column="1"
+                Command="{Binding OpenAudioFromFileCommand}"
+                Text="..." />
         </Grid>
-        <Label Text="Seleziona il colore del bottone"/>
-        <components:RgbColorPicker Rgb="{Binding Button.Color, Mode=TwoWay}" />
-        <Button Text="Salva" Command="{Binding SaveFileCommand}"
-                IsEnabled="{Binding IsSaveButtonEnabled, Mode=TwoWay}"/>
+        <Label Text="Seleziona il colore del bottone" />
+        <components:RgbColorPicker Rgb="{Binding Color, Mode=TwoWay, FallbackValue='(0,0,0)'}" />
+        <Button Command="{Binding SaveFileCommand}" Text="Salva">
+        </Button>
     </VerticalStackLayout>
 </ContentPage>

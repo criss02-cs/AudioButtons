@@ -13,25 +13,68 @@ using Newtonsoft.Json;
 
 namespace AudioButtons.ViewModels
 {
-    [QueryProperty("Button", "Button")]
-    public partial class ButtonViewModel : BaseViewModel
+    [QueryProperty(nameof(Button), nameof(Button))]
+    public partial class ButtonViewModel : ObservableObject
     {
         private Database _db;
+        [ObservableProperty]
+        ButtonAudio _button;
 
-        [ObservableProperty] 
-        [NotifyPropertyChangedFor(nameof(IsSaveButtonEnabled))]
-        private ButtonAudio button = new();
-        public bool IsSaveButtonEnabled => !string.IsNullOrEmpty(Button.Name) && !string.IsNullOrEmpty(Button.FilePath);
+        public string FilePath
+        {
+            get => Button.FilePath;
+            set
+            {
+                if (Button.FilePath == value) return;
+                Button.FilePath = value;
+                OnPropertyChanged();
+                SaveFileCommand.NotifyCanExecuteChanged();
+            }
+        }
+
+        public string Color
+        {
+            get => Button.Color;
+            set
+            {
+                if (Button.Color == value) return;
+                Button.Color = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Name
+        {
+            get => Button.Name;
+            set
+            {
+                if (Button.Name == value) return;
+                Button.Name = value;
+                OnPropertyChanged();
+                SaveFileCommand.NotifyCanExecuteChanged();
+            }
+        }
         public ButtonViewModel(Database db)
         {
             _db = db;
         }
-        [RelayCommand]
+
+        private bool CanSave() => _button is not null && !string.IsNullOrEmpty(Button.Name) && !string.IsNullOrEmpty(Button.FilePath);
+
+        [RelayCommand(CanExecute = nameof(CanSave))]
         private async Task SaveFile()
         {
             await _db.Init();
-            Button.Id = Guid.NewGuid();
-            var rows = await _db.SaveItemAsync(Button);
+            var rows = 0;
+            if (Button.Id == Guid.Empty)
+            {
+                Button.Id = Guid.NewGuid();
+                rows = await _db.SaveItemAsync(Button);
+            }
+            else
+            {
+                //rows = _db
+            }
             if (rows == 0)
             {
                 await Application.Current.MainPage.DisplayAlert("Errore", "C'è stato un problema nel salvataggio del bottone", "Ok");
@@ -62,7 +105,7 @@ namespace AudioButtons.ViewModels
                 if (result is not null)
                 {
                     await _db.Init();
-                    Button.FilePath = result.FullPath;
+                    FilePath = result.FullPath;
                 }
             }
             catch (Exception e)
