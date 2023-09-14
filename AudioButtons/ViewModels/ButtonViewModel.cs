@@ -20,48 +20,14 @@ namespace AudioButtons.ViewModels
         [ObservableProperty]
         ButtonAudio _button;
 
-        public string FilePath
-        {
-            get => Button.FilePath;
-            set
-            {
-                if (Button.FilePath == value) return;
-                Button.FilePath = value;
-                OnPropertyChanged();
-                SaveFileCommand.NotifyCanExecuteChanged();
-            }
-        }
-
-        public string Color
-        {
-            get => Button.Color;
-            set
-            {
-                if (Button.Color == value) return;
-                Button.Color = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Name
-        {
-            get => Button.Name;
-            set
-            {
-                if (Button.Name == value) return;
-                Button.Name = value;
-                OnPropertyChanged();
-                SaveFileCommand.NotifyCanExecuteChanged();
-            }
-        }
         public ButtonViewModel(Database db)
         {
             _db = db;
+            Button = new ButtonAudio();
         }
 
-        private bool CanSave() => _button is not null && !string.IsNullOrEmpty(Button.Name) && !string.IsNullOrEmpty(Button.FilePath);
 
-        [RelayCommand(CanExecute = nameof(CanSave))]
+        [RelayCommand]
         private async Task SaveFile()
         {
             await _db.Init();
@@ -105,7 +71,8 @@ namespace AudioButtons.ViewModels
                 if (result is not null)
                 {
                     await _db.Init();
-                    FilePath = result.FullPath;
+                    Button.FilePath = result.FullPath;
+                    OnPropertyChanged(nameof(Button));
                 }
             }
             catch (Exception e)

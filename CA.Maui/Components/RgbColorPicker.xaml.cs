@@ -11,11 +11,21 @@ public partial class RgbColorPicker : ContentView
         {
             if (bindable is not RgbColorPicker control) return;
             var color = newValue as string;
-            var colors = color.Replace("(", "").Replace(")", "").Split(',');
-            control._red = Convert.ToByte(colors[0]);
-            control._green = Convert.ToByte(colors[1]);
-            control._blue = Convert.ToByte(colors[2]);
-            control.Rgb = $"({control._red}, {control._green}, {control._blue})";
+            if (!string.IsNullOrEmpty(color))
+            {
+                var colors = color.Replace("(", "").Replace(")", "").Split(',');
+                control._red = Convert.ToByte(colors[0]);
+                control._green = Convert.ToByte(colors[1]);
+                control._blue = Convert.ToByte(colors[2]);
+                control.Rgb = $"({control._red}, {control._green}, {control._blue})";
+            }
+            else
+            {
+                control._red = Convert.ToByte(0);
+                control._green = Convert.ToByte(0);
+                control._blue = Convert.ToByte(0);
+                control.Rgb = $"({control._red}, {control._green}, {control._blue})";
+            }
             //var control = (RgbColorPicker)bindable;
         });
     public static readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(

@@ -25,21 +25,21 @@
         <Entry
             x:Name="NameEntry"
             Placeholder="Inserisci il nome"
-            Text="{Binding Name, FallbackValue=''}" />
+            Text="{Binding Button.Name, FallbackValue=''}" />
         <Label Text="Percorso" />
         <Grid ColumnDefinitions="7.5*, *">
             <Entry
                 x:Name="PathEntry"
                 Grid.Column="0"
                 IsReadOnly="True"
-                Text="{Binding FilePath, Mode=TwoWay, FallbackValue=''}" />
+                Text="{Binding Button.FilePath, Mode=TwoWay, FallbackValue=''}" />
             <Button
                 Grid.Column="1"
                 Command="{Binding OpenAudioFromFileCommand}"
                 Text="..." />
         </Grid>
         <Label Text="Seleziona il colore del bottone" />
-        <components:RgbColorPicker Rgb="{Binding Color, Mode=TwoWay, FallbackValue='(0,0,0)'}" />
+        <components:RgbColorPicker Rgb="{Binding Button.Color, Mode=TwoWay, FallbackValue='(0,0,0)'}" />
         <Button Command="{Binding SaveFileCommand}" Text="Salva">
         </Button>
     </VerticalStackLayout>

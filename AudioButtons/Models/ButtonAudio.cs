@@ -14,12 +14,6 @@ namespace AudioButtons.Models
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string FilePath { get; set; } = string.Empty;
-        public string Color { get; set; } = "(0,0,0)";
-
-        public ButtonAudio()
-        {
-            Id = Guid.NewGuid();
-        }
-
+        public string Color { get; set; }
     }
 }
