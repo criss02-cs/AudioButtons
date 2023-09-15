@@ -20,12 +20,28 @@ namespace AudioButtons.ViewModels
         [ObservableProperty]
         ButtonAudio _button;
 
+        //public bool IsNewButton => Button.Id != Guid.Empty;
+
         public ButtonViewModel(Database db)
         {
             _db = db;
             Button = new ButtonAudio();
         }
 
+        [RelayCommand]
+        private async Task DeleteButton()
+        {
+            await _db.Init();
+            var rows = await _db.DeleteItemAsync(Button);
+            if (rows == 0)
+            {
+                await Application.Current.MainPage.DisplayAlert("Errore", "C'è stato un problema nel salvataggio del bottone", "Ok");
+            }
+            else
+            {
+                await Back();
+            }
+        }
 
         [RelayCommand]
         private async Task SaveFile()
@@ -35,11 +51,11 @@ namespace AudioButtons.ViewModels
             if (Button.Id == Guid.Empty)
             {
                 Button.Id = Guid.NewGuid();
-                rows = await _db.SaveItemAsync(Button);
+                rows = await _db.InsertItemAsync(Button);
             }
             else
             {
-                //rows = _db
+                rows = await _db.UpdateItemAsync(Button);
             }
             if (rows == 0)
             {

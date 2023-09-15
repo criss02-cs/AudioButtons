@@ -17,6 +17,9 @@ public partial class RgbColorPicker : ContentView
                 control._red = Convert.ToByte(colors[0]);
                 control._green = Convert.ToByte(colors[1]);
                 control._blue = Convert.ToByte(colors[2]);
+                control.RedSlider.Value = control._red;
+                control.GreenSlider.Value = control._green;
+                control.BlueSlider.Value = control._blue;
                 control.Rgb = $"({control._red}, {control._green}, {control._blue})";
             }
             else
@@ -27,8 +30,8 @@ public partial class RgbColorPicker : ContentView
                 control.Rgb = $"({control._red}, {control._green}, {control._blue})";
             }
             //var control = (RgbColorPicker)bindable;
-        });
-    public static readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(
+        }, defaultBindingMode: BindingMode.TwoWay);
+    public new static readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(
         nameof(BackgroundColor), typeof(Color), typeof(RgbColorPicker));
 
     public RgbColorPicker()
