@@ -14,6 +14,10 @@
     x:DataType="viewModels:ButtonsViewModel"
     NavigatedTo="MainPage_OnNavigatedTo">
 
+    <Page.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{StaticResource Primary}" StatusBarStyle="LightContent" />
+    </Page.Behaviors>
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:RgbToStringConverter x:Key="RgbStringToColorConverter" />
@@ -26,7 +30,7 @@
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="VerticalTextAlignment" Value="Center" />
                 <Setter Property="FontSize" Value="20" />
-                <Setter Property="TextColor" Value="{StaticResource Text}" />
+                <Setter Property="TextColor" Value="{StaticResource White}" />
                 <Setter Property="Margin" Value="5" />
             </Style>
 

@@ -4,13 +4,13 @@
              xmlns:components="clr-namespace:CA.Maui.Components"
              x:Class="CA.Maui.Components.RgbColorPicker">
     <VerticalStackLayout>
-        <Border>
+        <Border Stroke="White">
             <Grid BackgroundColor="{Binding BackgroundColor, Source={RelativeSource 
-                AncestorType={x:Type components:RgbColorPicker}}}">
+                AncestorType={x:Type components:RgbColorPicker}}}" Padding="5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="20"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="35"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="100"/>
