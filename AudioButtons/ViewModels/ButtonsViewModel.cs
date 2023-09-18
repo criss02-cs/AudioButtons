@@ -19,7 +19,7 @@ namespace AudioButtons.ViewModels
         [ObservableProperty] private bool isPlayButtonVisible = false;
         [ObservableProperty] private bool isPauseButtonVisible = false;
         [ObservableProperty] private bool isStopButtonVisible = false;
-
+        
         public ButtonsViewModel(Database db)
         {
             _db = db;

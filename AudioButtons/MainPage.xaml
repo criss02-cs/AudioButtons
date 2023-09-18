@@ -21,6 +21,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:RgbToStringConverter x:Key="RgbStringToColorConverter" />
+            <converters:TextColorConverter x:Key="TextColorConverter" />
 
             <Style
                 x:Key="FontAwesomeIcon"
@@ -59,6 +60,7 @@
                             LongPressed="CaButton_OnLongPressed"
                             LongCommandParameter="{Binding .}"
                             ShortPressed="Button_OnPressed"
+                            TextColor="{Binding Color, Converter={StaticResource TextColorConverter}}"
                             Text="{Binding Name}"
                             WidthRequest="{Binding Width, Source={RelativeSource AncestorType={x:Type CollectionView}}}">
                             <components:CaButton.Triggers>
