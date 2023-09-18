@@ -4,9 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:components="clr-namespace:CA.Maui.Components;assembly=CA.Maui"
-    xmlns:converters="clr-namespace:AudioButtons.Converters"
     xmlns:viewModels="clr-namespace:AudioButtons.ViewModels"
-    xmlns:views="clr-namespace:AudioButtons.Views"
     xmlns:system="clr-namespace:System;assembly=System.Runtime"
     Title="Nuovo bottone"
     x:DataType="viewModels:ButtonViewModel">

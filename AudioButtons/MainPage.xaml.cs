@@ -4,6 +4,7 @@ using AudioButtons.ViewModels;
 using System.Reflection;
 using AudioButtons.Views;
 using CA.Maui.Components;
+using CommunityToolkit.Maui.Views;
 
 namespace AudioButtons
 {

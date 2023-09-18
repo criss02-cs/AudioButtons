@@ -2,7 +2,6 @@
 using AudioButtons.Views;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
-using The49.Maui.BottomSheet;
 
 namespace AudioButtons
 {
@@ -15,7 +14,6 @@ namespace AudioButtons
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
                 .UseMauiCommunityToolkitMediaElement()
-                .UseBottomSheet()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -30,6 +28,8 @@ namespace AudioButtons
 
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddTransient<ButtonPage>();
+
+            
 
 #if DEBUG
             builder.Logging.AddDebug();
