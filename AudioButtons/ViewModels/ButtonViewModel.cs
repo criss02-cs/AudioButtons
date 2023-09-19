@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using AudioButtons.AsyncEvents;
-using AudioButtons.Models;
-using CommunityToolkit.Maui.Views;
+﻿using AudioButtons.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
 
 namespace AudioButtons.ViewModels
 {
     [QueryProperty(nameof(Button), nameof(Button))]
     public partial class ButtonViewModel : ObservableObject
     {
-        private Database _db;
+        private readonly Database _db;
         [ObservableProperty]
         ButtonAudio _button;
 

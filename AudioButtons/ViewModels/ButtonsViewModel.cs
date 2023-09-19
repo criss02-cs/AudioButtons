@@ -6,20 +6,19 @@ using CA.Maui.Commands;
 using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
 
 namespace AudioButtons.ViewModels
 {
     public partial class ButtonsViewModel : BaseViewModel
     {
-        private Database _db;
+        private readonly Database _db;
         public ObservableCollection<ButtonAudio> Buttons { get; private set; } = new();
         public ICaCommand ModifyButton { get; }
-        [ObservableProperty] private MediaSource mediaSource;
-        [ObservableProperty] private bool isPlayButtonVisible = false;
-        [ObservableProperty] private bool isPauseButtonVisible = false;
-        [ObservableProperty] private bool isStopButtonVisible = false;
-        
+        [ObservableProperty] private MediaSource _mediaSource;
+        [ObservableProperty] private bool _isPlayButtonVisible;
+        [ObservableProperty] private bool _isPauseButtonVisible;
+        [ObservableProperty] private bool _isStopButtonVisible;
+
         public ButtonsViewModel(Database db)
         {
             _db = db;
@@ -29,21 +28,11 @@ namespace AudioButtons.ViewModels
         }
 
         [RelayCommand]
-        private void DeleteButtonAsync(ButtonAudio button)
-        {
-            if (!Buttons.Contains(button))
-            {
-                return;
-            }
-
-            Buttons.Remove(button);
-            // TODO eliminare il bottone anche dal db
-        }
-        [RelayCommand]
         private Task AddNewButtonAsync() => Shell.Current.GoToAsync(nameof(ButtonPage), new Dictionary<string, object>
         {
             ["Button"] = new ButtonAudio()
         });
+
         [RelayCommand]
         private void PlayButtonAsync(ButtonAudio button)
         {
@@ -54,6 +43,7 @@ namespace AudioButtons.ViewModels
 
             MediaSource = MediaSource.FromFile(button.FilePath);
         }
+
         [RelayCommand]
         private async Task LoadButtons()
         {
