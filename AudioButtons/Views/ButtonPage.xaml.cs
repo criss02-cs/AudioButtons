@@ -8,7 +8,6 @@ public partial class ButtonPage : ContentPage
 	{
 		InitializeComponent();
 		BindingContext = vm;
-        Console.WriteLine(NameEntry.Text.Length);
     }
 
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
