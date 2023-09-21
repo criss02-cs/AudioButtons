@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <ContentPage
     x:Class="AudioButtons.MainPage"
@@ -22,7 +22,7 @@
         <ResourceDictionary>
             <converters:RgbToStringConverter x:Key="RgbStringToColorConverter" />
             <converters:TextColorConverter x:Key="TextColorConverter" />
-            <components:WaveformDrawable x:Key="WaveformDrawable"/>
+            <converters:WaveformGraphicsViewWidthConverter x:Key="WaveformGraphicsViewWidthConverter" />
 
             <Style
                 x:Key="FontAwesomeIcon"
@@ -55,41 +55,59 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:ButtonAudio">
                     <HorizontalStackLayout>
-                        <!--<components:CaButton
-                            BackgroundColor="{Binding Color, Converter={StaticResource RgbStringToColorConverter}}"
-                            HorizontalOptions="Start"
-                            LongPressed="CaButton_OnLongPressed"
-                            LongCommandParameter="{Binding .}"
-                            ShortPressed="Button_OnPressed"
-                            TextColor="{Binding Color, Converter={StaticResource TextColorConverter}}"
-                            Text="{Binding Name}"
+                        <Border
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 10"
                             WidthRequest="{Binding Width, Source={RelativeSource AncestorType={x:Type CollectionView}}}">
-                            <components:CaButton.Triggers>
-                                <DataTrigger
-                                    Binding="{Binding .}"
-                                    TargetType="Button"
-                                    Value="{x:Type models:ButtonAudio}">
-                                    <Setter Property="Command"
-                                            Value="{Binding PlayButtonAsyncCommand, 
-                                            Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}" />
-                                    <Setter Property="CommandParameter" Value="{Binding .}" />
-                                </DataTrigger>
-                            </components:CaButton.Triggers>
-                        </components:CaButton>-->
-                        <components:WaveformGraphicsView 
-                            Path="{Binding FilePath}"
-                            HeightRequest="300"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center"
-                            WidthRequest="{Binding Width, Source={RelativeSource AncestorType={x:Type CollectionView}}}"
-                            >
-                            <components:WaveformGraphicsView.Drawable>
-                                <components:WaveformDrawable />
-                            </components:WaveformGraphicsView.Drawable>
-                        </components:WaveformGraphicsView>
+                            <Border.Shadow>
+                                <Shadow
+                                    Brush="Gray"
+                                    Opacity="0.8"
+                                    Radius="2"
+                                    Offset="5,5" />
+                            </Border.Shadow>
+                            <AbsoluteLayout BackgroundColor="{Binding Color, Converter={StaticResource RgbStringToColorConverter}}">
+                                <AbsoluteLayout.Shadow>
+                                    <Shadow
+                                        Brush="White"
+                                        Opacity="0.8"
+                                        Offset="10,10" />
+                                </AbsoluteLayout.Shadow>
+                                <components:CaButton
+                                    BackgroundColor="{Binding Color, Converter={StaticResource RgbStringToColorConverter}}"
+                                    HorizontalOptions="Start"
+                                    LongCommandParameter="{Binding .}"
+                                    LongPressed="CaButton_OnLongPressed"
+                                    ShortPressed="Button_OnPressed"
+                                    Text="{Binding Name}"
+                                    TextColor="{Binding Color, Converter={StaticResource TextColorConverter}}"
+                                    WidthRequest="{Binding Width, Source={RelativeSource AncestorType={x:Type CollectionView}}}">
+                                    <components:CaButton.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding .}"
+                                            TargetType="Button"
+                                            Value="{x:Type models:ButtonAudio}">
+                                            <Setter Property="Command" Value="{Binding PlayButtonAsyncCommand, Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}" />
+                                            <Setter Property="CommandParameter" Value="{Binding .}" />
+                                        </DataTrigger>
+                                    </components:CaButton.Triggers>
+                                </components:CaButton>
+                                <components:WaveformGraphicsView
+                                    Margin="0,25,0,0"
+                                    HeightRequest="75"
+                                    HorizontalOptions="Center"
+                                    LineColor="{Binding Color, Converter={StaticResource TextColorConverter}}"
+                                    Path="{Binding FilePath}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="{Binding Width, Source={RelativeSource AncestorType={x:Type CollectionView}}, Converter={StaticResource WaveformGraphicsViewWidthConverter}}">
+                                    <components:WaveformGraphicsView.Drawable>
+                                        <components:WaveformDrawable />
+                                    </components:WaveformGraphicsView.Drawable>
+                                </components:WaveformGraphicsView>
+                            </AbsoluteLayout>
+                        </Border>
                         <Label
-                            IsVisible="{Binding IsPauseButtonVisible, Mode=TwoWay, 
-                                Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}"
+                            IsVisible="{Binding IsPauseButtonVisible, Mode=TwoWay, Source={RelativeSource AncestorType={x:Type viewModels:ButtonsViewModel}}}"
                             Style="{StaticResource FontAwesomeIcon}"
                             Text="{x:Static font:FaSolidIcons.Pause}">
                             <Label.GestureRecognizers>
@@ -116,7 +134,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        
+
 
         <Button
             Grid.Row="1"

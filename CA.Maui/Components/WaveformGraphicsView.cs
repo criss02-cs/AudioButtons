@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using NAudio.Wave;
 
 namespace CA.Maui.Components;
@@ -5,8 +6,24 @@ namespace CA.Maui.Components;
 public class WaveformGraphicsView : GraphicsView
 {
     public string Path { get => (string)GetValue(PathProperty); set => SetValue(PathProperty, value); }
+
+    public Color LineColor { get => (Color)GetValue(LineColorProperty); set => SetValue(LineColorProperty, value); }
+
     public static readonly BindableProperty PathProperty = BindableProperty.Create(
         nameof(Path), typeof(string), typeof(WaveformGraphicsView), propertyChanged: PathPropertyChanged);
+
+    public static readonly BindableProperty LineColorProperty = BindableProperty.Create(
+        nameof(LineColor), typeof(Color), typeof(WaveformGraphicsView), propertyChanged: LineColorPropertyChanged);
+
+    private static void LineColorPropertyChanged(BindableObject bindable, object oldvalue, object newValue)
+    {
+        if (bindable is not WaveformGraphicsView { Drawable: WaveformDrawable drawable } view)
+        {
+            return;
+        }
+        drawable.LineColor = newValue as Color;
+        view.Invalidate();
+    }
 
     public static void PathPropertyChanged(BindableObject bindable, object oldValue, object newValue)
     {
@@ -23,42 +40,19 @@ public class WaveformGraphicsView : GraphicsView
 public class WaveformDrawable : BindableObject, IDrawable
 {
     public string Path { get; set; }
+    public Color LineColor { get; set; }
     public void Draw(ICanvas canvas, RectF dirtyRect)
     {
-        if (Path is null) return;
-        var reader = new AudioFileReader(Path);
-        if (File.Exists(Path))
+        for (var i = 0; i < dirtyRect.Width; i += 10)
         {
-            var width = (int)dirtyRect.Width;
-            var height = (int)dirtyRect.Height;
-            const int bufferSize = 10;
-            var buffer = new byte[bufferSize];
-            using (var fs = new FileStream(Path, FileMode.Open, FileAccess.Read))
-            {
-                int bytesRead = 0;
-                while ((bytesRead = fs.Read(buffer, 0, bufferSize)) > 0)
-                {
-                    var sampleValue = buffer[0] / 128.0f - 1.0f;
-                    var halfHeight = height / 2;
-                    var y = (int)(halfHeight + sampleValue * halfHeight);
-                    canvas.StrokeSize = 2;
-                    canvas.DrawLine(0, halfHeight, 10, y);
-                }
-            }
+            canvas.StrokeColor = Colors.White;
+            canvas.StrokeSize = 2;
+            var height = new Random().Next(0, 40);
+            var y = dirtyRect.Height / 2 - (float)height / 2;
+            //var x = (dirtyRect.Width / samples.Length) * i;
+            canvas.FillColor = LineColor;
+            canvas.FillRoundedRectangle(i, y, 5, height, 12);
         }
-        
-        //for (var x = 0; x < width; x++)
-        //{
-        //    var position = x * reader.Length / width;
-        //    reader.Seek(position, SeekOrigin.Begin);
-        //    var bytesRead = reader.Read(buffer, 0, 1);
-        //    if (bytesRead == 0)
-        //        break;
-        //    var sampleValue = buffer[0] / 128.0f - 1.0f;
-        //    var halfHeight = height / 2;
-        //    var y = (int)(halfHeight + sampleValue * halfHeight);
-        //    canvas.StrokeSize = 2;
-        //    canvas.DrawLine(x, halfHeight, x, y);
-        //}
+
     }
 }
