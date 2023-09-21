@@ -61,18 +61,18 @@
                             WidthRequest="{Binding Width, Source={RelativeSource AncestorType={x:Type CollectionView}}}">
                             <Border.Shadow>
                                 <Shadow
-                                    Brush="Gray"
-                                    Opacity="0.8"
+                                    Brush="White"
+                                    Opacity="0.5"
                                     Radius="2"
                                     Offset="5,5" />
                             </Border.Shadow>
                             <AbsoluteLayout BackgroundColor="{Binding Color, Converter={StaticResource RgbStringToColorConverter}}">
-                                <AbsoluteLayout.Shadow>
+                                <!--<AbsoluteLayout.Shadow>
                                     <Shadow
                                         Brush="White"
                                         Opacity="0.8"
                                         Offset="10,10" />
-                                </AbsoluteLayout.Shadow>
+                                </AbsoluteLayout.Shadow>-->
                                 <components:CaButton
                                     BackgroundColor="{Binding Color, Converter={StaticResource RgbStringToColorConverter}}"
                                     HorizontalOptions="Start"
@@ -93,7 +93,7 @@
                                     </components:CaButton.Triggers>
                                 </components:CaButton>
                                 <components:WaveformGraphicsView
-                                    Margin="0,25,0,0"
+                                    Margin="10,25,0,5"
                                     HeightRequest="75"
                                     HorizontalOptions="Center"
                                     LineColor="{Binding Color, Converter={StaticResource TextColorConverter}}"

@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using NAudio.Wave;
 
 namespace CA.Maui.Components;
 

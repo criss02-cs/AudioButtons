@@ -19,8 +19,6 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0" PrivateAssets="all" />
-		<PackageReference Include="NAudio" Version="2.2.1" />
-		<PackageReference Include="SkiaSharp.Views.Maui.Core" Version="2.88.5" />
 	</ItemGroup>
 
 	<ItemGroup>
